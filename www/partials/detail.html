@@ -2,30 +2,32 @@
 
 
 <div class="container-fluid">
-<center>
+
     
-    <h2>
-        <small> Editing : </small>
+    <h3>
+        <small> Edition de : </small>
         {{line.name}} {{line.grade}} {{line.accuracy}}
-    </h2>
+    </h3>
+
+<center>
     
     <br>
 
-    GPS process :
+    <h3> Localisation GPS :
     
-    <button type="button" class="btn btn-default btn-xs" ng-click="pingGps()">
+    <button type="button" class="btn btn-default" ng-click="pingGps()">
         <i class="fa fa-refresh"></i> 
     </button>
-        
-    <div class="progress"  id="gpssection"> Searching... </div>
+    </h3>
+    <div class="progress"  id="gpssection"> Recherche... </div>
 
     <br> <br> <br> <br>
         
-    <button type="button" class="btn btn-success" ng-click="updating()"> Save
+    <button type="button" class="btn btn-success btn-lg" ng-click="updating()"> Sauvegarder
         <i class="fa fa-check"></i>
     </button>
-        
-    <button type="button" class="btn btn-default" ng-click="discard()"> Discard
+    
+    <button type="button" class="btn btn-default btn-lg" ng-click="discard()"> Annuler
         <i class="fa fa-times"></i>
     </button>
         

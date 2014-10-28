@@ -10,7 +10,7 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 		})
 		.when('/home', {
 			templateUrl: 'partials/home.html',
-			// controller  : 'mainController'
+			controller  : 'mainController'
 		})
         .when('/list', {
             templateUrl: 'partials/list.html',

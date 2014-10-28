@@ -19,8 +19,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                  
         // deleting tables making room for new data and dat architecture
         db.dropTable("lines");
-        
-        // creating a "lines" table in DB
+                 
         db.createTable('lines', {
                         "id"        : { "type": "INTEGER"   },
                         "topo"      : { "type": "TEXT"      },
@@ -31,7 +30,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "accuracy"  : { "type": "INTEGER"   },
                         "sector"    : { "type": "TEXT"      }  });
                  
-        // filling tables with data from input.html
+        // filling tables with data
         for (var i=0; i< dataLines.length; i++) {
             db.insert('lines', {
                         "id"        : dataLines[i].id,
@@ -44,7 +43,6 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "sector"    : dataLines[i].sector
                         }).then(function(results) { console.log(results.insertId); });
         }
-                 
         alert('data imported from "input.html"');
                               
     };
@@ -150,6 +148,7 @@ myApp.controller('AddCtrl', function($scope, $location, $webSql)
     }
     
 	$scope.save = function(name,grade) {
+	    var table.insertRow(rowCount);
 	    db.insert('lines', {
                         "id"        : 0,
                         "topo"      : "",
