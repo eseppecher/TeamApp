@@ -3,22 +3,49 @@
 
 <div class="container-fluid">
 
-	<h1>
-		<!-- Button Home -->
-        <button allign="center" type="button" class="btn btn-default btn-lg" ng-click="back()">
-            <i class="fa fa-reply"></i>
-            Home
-        </button>
-        <!-- Title -->
-        <small> Liste </small>
-    </h1>
+    <br> <br>
     
-    <div class="row" ng-repeat="line in lines" ng-class="{ done: line.accuracy<=5}" ng-click="detail(line.id)">
-        <h5>
-            <div class="col-xs-5" ng-bind-html="line.topo"> </div>
-            <div class="col-xs-5" ng-bind-html="line.name"> </div>
-            <div class="col-xs-2" ng-bind-html="line.grade"> </div>
-        </h5>
+    <center>
+    	<!-- Button Home -->
+        <button type="button" class="btn btn-default btn-lg" ng-click="home()">
+            <i class="fa fa-home"></i>
+            Acceuil
+        </button>
+        <!-- Button Add -->
+        <button type="button" class="btn btn-default btn-lg" ng-click="add_route()">
+            <i class="fa fa-plus"></i>
+            Ajouter un bloc
+        </button>
+    </center>
+    
+    <br> <br>
+
+    <!-- Columns' titles -->
+    <div class="row title_list">
+        <h4>
+            <div class="col-xs-1"> GPS </div>
+            <div class="col-xs-2"> Acc </div>
+            <div class="col-xs-4"> Nom </div>
+            <div class="col-xs-2"> Cot </div>
+        </h4>
     </div>
     
+    <br>
+    
+    <!-- List of boulders -->
+    <div class="row" ng-repeat="line in lines" ng-class="{done:line.accuracy<=5}">
+        <h4>
+            <!-- Button GPS -->
+            <div class="col-xs-1">
+                <button type="button" class="btn btn-info" ng-click="gps">
+                    <i class="fa fa-map-marker"></i>
+                </button>
+            </div>     
+            <!-- Boulders' datas -->
+            <div class="col-xs-2" ng-click="detail(line.id)"> {{line.accuracy}} </div>
+            <div class="col-xs-4" ng-bind-html="line.name" ng-click="detail(line.id)"> </div>
+            <div class="col-xs-2" ng-bind-html="line.grade" ng-click="detail(line.id)"> </div>
+        </h4>
+    </div>
+     
 </div>

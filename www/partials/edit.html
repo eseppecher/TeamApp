@@ -1,4 +1,4 @@
-<!-- Webpage add.html -->
+<!-- Webpage edit.html -->
 
 
 <div class="container-fluid">
@@ -12,27 +12,27 @@
     </center>
     
     <!-- Title -->
-    <h3> Ajout d'un bloc </h3>
+    <h3> Modification d'un bloc </h3>
 
     <br>
 
     <!-- Formulaire -->    
-    <form role="form" name="add_form" action="javascript:void(0);">
-    
+    <form role="form" name="edit_form" action="javascript:void(0);">
+
         <!-- Boulder's name -->
-        Nom : <input type="text" ng-model="b.name" placeholder="Nom du bloc" class="form-control">
+        Nom : <input type="text" ng-model="name" class="form-control">
        
         <br>
     
         <!-- Boulder's sector -->
-        Secteur (à modifier) :
-        <select ng-model="b.sector" class="form-control" placeholder="sector">
+        Secteur (à modifier) : <select ng-model="sector" class="form-control" placeholder="sector">
+            <option ng-repeat="sector in sectors | filter:mySite.id:strict"> {{line.sector}} </option>
         </select>
         
         <br>
 
         <!-- Boulder's grade -->
-        Cotation : <select model="b.grade" class="form-control">    
+        Cotation : <select ng-model="grade" class="form-control" placeholder="grade">
             <option>3a</option>
             <option>3a+</option>
             <option>3b</option>
@@ -45,7 +45,7 @@
             <option>4b+</option>
             <option>5c</option>
             <option>5c+</option>
-            <option selected="selected">6a</option>
+            <option>6a</option>
             <option>6a+</option>
             <option>6b+</option>
             <option>6c</option>
@@ -69,8 +69,8 @@
         <br>
 
         <!-- Boulder's beauty -->
-        Note : <select model="b.rate" class="form-control" style="font-family:'FontAwesome'">
-            <option value='-1' selected="selected"> Sans avis </option>
+        Note : <select ng-model="rate" class="form-control" placeholder="rate" style="font-family:'FontAwesome'">
+            <option value='-1'> Sans avis </option>
             <option value='0'> &#xf165 Ugly </option>
             <option value='1'> &#xf005 Not bad </option>
             <option value='2'> &#xf005 &#xf005 Nice </option>
@@ -78,28 +78,36 @@
         </select>
 
         <br>
-
-
+        
         <!-- Boulder's description -->
-        Description : <textarea ng-model="b.description" class="form-control"
-                      rows="3" placeholder="Description du bloc"> </textarea>
+        Description : <textarea ng-model="description" class="form-control" rows="3" placeholder="description">
+                      </textarea>
  
-        <br>
+        <br> <br>
 
     </form>
-    
+
     <center>
+        <!-- Button Update -->
         <button type="submit" class="btn btn-success btn-lg"
-                ng-click="save(b.name,b.sector,b.grade,b.rate,b.description)">
+            ng-click="update(name, sector, grade, rate, description)">
             Sauvegarder
+        <!-- Button Return -->
         </button>
-        
-        <button type="button" class="btn btn-default btn-lg" ng-click="list()">
-            <i class="fa fa-list"></i>
-            Retour à la liste
+        <button class="btn btn-default btn-lg" ng-click="detail(line.id)">
+            Annuler
         </button>
     </center>
-
-
+    
 </div>
+
+     <!--   <p> Choisir un secteur :
+            <select>
+                <option ng-repeat="sector in sectors | filter:mySite.id:strict"> {{sector.name}} </option>
+            </select>
+            <button type="submit" class="btn btn-default disabled" ng-click="save(b.name,b.grade)">
+                Ajouter
+                <i class="fa fa-plus"></i>
+            </button>
+        </p> -->
 

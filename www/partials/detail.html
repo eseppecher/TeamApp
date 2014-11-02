@@ -3,35 +3,64 @@
 
 <div class="container-fluid">
 
-    
-    <h3>
-        <small> Edition de : </small>
-        {{line.name}} {{line.grade}} {{line.accuracy}}
-    </h3>
+    <center>
+    	<!-- Button Return -->
+        <button type="button" class="btn btn-default btn-lg" ng-click="list()">
+            <i class="fa fa-list"></i>
+            Retour à la liste
+        </button>
+    </center> 
+      
+    <h3> Détail du bloc </h3>
 
-<center>
-    
     <br>
 
-    <h3> Localisation GPS :
-    
-    <button type="button" class="btn btn-default" ng-click="pingGps()">
-        <i class="fa fa-refresh"></i> 
-    </button>
-    </h3>
-    <div class="progress"  id="gpssection"> Recherche... </div>
-
-    <br> <br> <br> <br>
+    <!-- Boulder's name -->
+    Nom : {{line.name}}
+       
+    <br>
         
-    <button type="button" class="btn btn-success btn-lg" ng-click="updating()"> Sauvegarder
-        <i class="fa fa-check"></i>
-    </button>
-    
-    <button type="button" class="btn btn-default btn-lg" ng-click="discard()"> Annuler
-        <i class="fa fa-times"></i>
-    </button>
-        
-    <br> <br> <br> <br> <br> <br>
+    <!-- Boulder's sector -->
+    Secteur : {{line.sector}}
+     
+    <br>
 
-</center>
+    <!-- Boulder's grade -->
+    Cotation : {{line.grade}}
+     
+    <br>
+
+    <!-- Boulder's beauty -->
+    Note : {{line.rate}}
+     
+    <br>
+        
+    <!-- Boulder's description -->
+    Description : {{line.description}}
+        
+    <br>
+        
+    <!-- Boulder's picture -->
+    Photo : {{line.picture}}
+
+    <br> <br>
+
+    <center>
+    
+        <!-- Button Edit -->
+        <button type="button" class="btn btn-info" ng-click="edit(line.id)">
+            <i class="fa fa-pencil"></i>
+        </button>
+        <!-- Button Delete -->
+        <button type="button" class="btn btn-danger" ng-click="delete(line.id)">
+            <i class="fa fa-trash-o"></i>
+        </button>
+        <!-- Button Picture -->
+        <button class="btn btn-default btn-lg" ng-click="">
+            <i class="fa fa-camera"></i>
+            Prendre une photo
+        </button>
+        
+    </center>
+
 </div>

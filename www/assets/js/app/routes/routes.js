@@ -1,39 +1,56 @@
 // Routing : for the autocompletion dans la barre de navigation
 
 myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+
 	$locationProvider.html5Mode(false);
 	
 	$routeProvider
+	
+	    // Page par défault
 		.when('/', {
 			templateUrl: 'partials/default.html',
 			controller	: 'mainController'
 		})
+		
+		// Page d'acceuil
 		.when('/home', {
-			templateUrl: 'partials/home.html',
-			// controller  : 'mainController'
+			templateUrl : 'partials/home.html',
 		})
+		
+		// Page de la liste
         .when('/list', {
-            templateUrl: 'partials/list.html',
+            templateUrl : 'partials/list.html',
             controller  : 'ListCtrl'
         })
-        .when('/detail/:lineId', {
-            templateUrl: 'partials/detail.html',
-            controller  : 'DetailCtrl'
+        
+        // Page du détail d'un bloc
+        .when('/detail:lineId', {
+            templateUrl : 'partials/detail.html',
+            controller  : 'DataCtrl'
         })
-        .when('/search', {
-            templateUrl: 'partials/search.html'//,
-           // controller  : 'DetailCtrl'
+        
+        // Page d'édition d'un bloc
+        .when('/edit:lineId', {
+            templateUrl : 'partials/edit.html',
+            controller  : 'DataCtrl'
         })
+        
+        // Page de suppression d'un bloc
+        .when('/delete:lineId', {
+            templateUrl : 'partials/delete.html',
+            controller  : 'DataCtrl'
+        })
+        
+        // Page d'ajout d'un nouveau bloc
         .when('/add', {
             templateUrl : 'partials/add.html',
             controller  : 'AddCtrl'
         })
-        .when('/add_saved', {
-            templateUrl : 'partials/add_saved.html',
-            controller  : 'AddCtrl'
-        })
+
+        // Autres cas
         .otherwise({
 			redirectTo: '/',
 			controller	: 'mainController'
-		});
+		})
+		
 }]);
