@@ -3040,6 +3040,7 @@
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/edit.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/gps.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/home.html \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/image_saving.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/list.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/picture.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/search.html \

@@ -106,6 +106,23 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
 	$scope.edit = function(lineId) {    // Page d'édition d'un bloc 
         $location.path('/edit'+lineId);
     };
+                 
+            
+                 
+    $scope.shoot = function (){ // Lancement de l'appareil photo
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+    }
+                 
+                
+    onSuccess = function (imageURI) { // Succès de la prise de photo
+        //var image = document.getElementById('myImage');
+        $scope.image = imageURI;
+                 alert(imageURI);
+    }
+                 
+    onFail = function (message) { // Echec de la prise de photo
+        alert('Failed because: ' + message);
+    }
 	
 });
 

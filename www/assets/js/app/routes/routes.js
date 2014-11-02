@@ -42,6 +42,12 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         })
         
         // Page d'ajout d'un nouveau bloc
+        .when('/image_saving:imageURI', {
+            templateUrl : 'partials/image_saving.html',
+            controller  : 'ImageCtrl'
+        })
+        
+        // Page d'ajout d'un nouveau bloc
         .when('/add', {
             templateUrl : 'partials/add.html',
             controller  : 'AddCtrl'

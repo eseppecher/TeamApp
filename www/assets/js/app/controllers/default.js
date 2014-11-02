@@ -106,29 +106,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
 	$scope.edit = function(lineId) {    // Page d'édition d'un bloc 
         $location.path('/edit'+lineId);
     };
-                 
     
-   // document.addEventListener('deviceready', onDeviceReady, false);
-                 
-                 
-    onDeviceReady = function () {
-                 alert("device ready getting camera soon");
-    };
-                 
-    $scope.shoot = function (){
-        navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
-    }
-                 
-                 
-    onSuccess = function (imageURI) {
-        alert("succès");
-        var image = document.getElementById('myImage');
-        image.src = imageURI;
-    }
-                 
-    onFail = function (message) {
-        alert('Failed because: ' + message);
-    }
 	
 });
 
@@ -189,8 +167,47 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql)
         db.del('lines', {"id": id});
         $location.path('/list');
     }
+                 
+    $scope.shoot = function (){ // Lancement de l'appareil photo
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+    }
+                 
+                 
+    onSuccess = function (imageURI) { // Succès de la prise de photo
+        alert("success, relocating");
+        $location.path('/image_saving'+imageURI);
+    }
+                 
+    onFail = function (message) { // Echec de la prise de photo
+        alert('Failed because: ' + message);
+    }
                           
 });
+
+// Image controller ////////////////////////////////////////////////////////////////////////////////////////
+
+myApp.controller('ImageCtrl', function($scope, $routeParams, $location, $webSql)
+{
+    alert("getting in image CTRL");
+    // Identifiant du bloc à éditer
+    imageURI = parseInt($routeParams.imagURI);
+    $scope.imageLocation = imageURI;
+                 
+    // Fonction : enregistrer l'adresse de l'image dans la base de données
+    $scope.update = function(name, sector, grade, rate, description) {
+        db.update("lines", {"name"       : name       }, {'id': id});
+        db.update("lines", {"sector"     : sector     }, {'id': id});
+        db.update("lines", {"grade"      : grade      }, {'id': id});
+        db.update("lines", {"rate"       : rate       }, {'id': id});
+        db.update("lines", {"description": description}, {'id': id});
+        $location.path('/list');
+    };
+                 
+    var image = document.getElementById('myImage');
+    image.src = imageURI;
+                 
+                 
+});                 
 
 
 
