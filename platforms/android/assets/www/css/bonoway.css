@@ -14,7 +14,9 @@ a {
     color: #4E5053;
     background: transparent;
 }
+
 a:active,
+
 a:hover {
     outline: 0;
 }
@@ -23,16 +25,16 @@ a:hover {
     color: #007aff;
 }
 
+.list-group-item > .badge{}
 
-.list-group-item > .badge{
-    
-}
 .justified{
     float: none;
 }
+
 .route{
     color: #F45F7A;
 }
+
 .badge-route{
     
     background: #F45F7A; /*! ROUTE COLOR : RED v1.0 */
@@ -361,6 +363,18 @@ a:hover {
     background: #dff0d8;
 }
 
+.title_list {
+    background: #AFD8E6;
+    font-weight: bold;
+}
+
+.style_form {
+    padding : 3px;
+    border : 1px solid #F5C5C5;
+    border-radius : 5px;
+    width : 200px;
+    box-shadow : 1px 1px 2px #C0C0C0 inset;
+ }
 
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */

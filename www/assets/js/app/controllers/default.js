@@ -106,6 +106,29 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
 	$scope.edit = function(lineId) {    // Page d'édition d'un bloc 
         $location.path('/edit'+lineId);
     };
+                 
+    
+   // document.addEventListener('deviceready', onDeviceReady, false);
+                 
+                 
+    onDeviceReady = function () {
+                 alert("device ready getting camera soon");
+    };
+                 
+    $scope.shoot = function (){
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+    }
+                 
+                 
+    onSuccess = function (imageURI) {
+        alert("succès");
+        var image = document.getElementById('myImage');
+        image.src = imageURI;
+    }
+                 
+    onFail = function (message) {
+        alert('Failed because: ' + message);
+    }
 	
 });
 
