@@ -37,7 +37,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "longitude"  : { "type": "TEXT"      },
                         "accuracy"   : { "type": "INTEGER"   },
                         "sector"     : { "type": "TEXT"      },
-                        "picture"    : { "type": "TEXT"      }});     
+                        "image"    : { "type": "TEXT"      }});     
         // Filling tables with data from input.html
         for (var i=0; i<dataLines.length; i++) {
             // Mise en mémoire de l'identifiant du dernier bloc
@@ -56,7 +56,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "longitude"  : dataLines[i].longitude,
                         "accuracy"   : dataLines[i].accuracy,
                         "sector"     : dataLines[i].sector,
-                        "picture"    : dataLines[i].picture
+                        "image"    : ""
                         }).then(function(results) { console.log(results.insertId); });
         }        
         alert('data imported from "input.html"');                     
@@ -73,7 +73,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                 document.write(results.rows.item(i).sector      + ";");
                 document.write(results.rows.item(i).rate        + ";");
                 document.write(results.rows.item(i).description + ";");
-                document.write(results.rows.item(i).picture     + ";");
+                document.write(results.rows.item(i).image     + ";");
                 document.write(results.rows.item(i).latitude    + ";");
                 document.write(results.rows.item(i).longitude   + ";");
                 document.write(results.rows.item(i).accuracy    + "<br>");
@@ -149,6 +149,7 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
             $scope.sector       = results.rows.item(0).sector;
             $scope.rate         = results.rows.item(0).rate;
             $scope.description  = results.rows.item(0).description;
+            $scope.image  = results.rows.item(0).image;
         }
     );
     
@@ -159,6 +160,7 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
         db.update("lines", {"grade"      : grade      }, {'id': id});
         db.update("lines", {"rate"       : rate       }, {'id': id});
         db.update("lines", {"description": description}, {'id': id});
+        db.update("lines", {"image": "imageURI"}, {'id': id});
         $location.path('/list');
     };
     
@@ -171,9 +173,12 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
               
     // fonction pour prendre une photo, utilisant le module Camera
     $scope.getPhoto = function() {
-        Camera.getPicture().then(function(imageURI) {
-            $scope.schema= imageURI;
-            console.log(imageURI);
+        Camera.getImage().then(function(imageURI) {
+            db.update("lines", {"image": imageURI}, {'id': id});
+             
+            $location.path('/detail'+id);
+
+
         }, function(err) {
             console.err(err);
         });
@@ -182,30 +187,6 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                           
 });
 
-// Image controller ////////////////////////////////////////////////////////////////////////////////////////
-
-myApp.controller('ImageCtrl', function($scope, $routeParams, $location, $webSql)
-{
-    alert("getting in image CTRL");
-    // Identifiant du bloc à éditer
-    imageURI = parseInt($routeParams.imagURI);
-    $scope.imageLocation = imageURI;
-                 
-    // Fonction : enregistrer l'adresse de l'image dans la base de données
-    $scope.update = function(name, sector, grade, rate, description) {
-        db.update("lines", {"name"       : name       }, {'id': id});
-        db.update("lines", {"sector"     : sector     }, {'id': id});
-        db.update("lines", {"grade"      : grade      }, {'id': id});
-        db.update("lines", {"rate"       : rate       }, {'id': id});
-        db.update("lines", {"description": description}, {'id': id});
-        $location.path('/list');
-    };
-                 
-    var image = document.getElementById('myImage');
-    image.src = imageURI;
-                 
-                 
-});                 
 
 
 
@@ -226,21 +207,11 @@ myApp.controller('AddCtrl', function($scope, $location, $webSql)
                         "longitude"  : "",
                         "accuracy"   : 1000,
                         "sector"     : sector,
-                        "picture"    : ""
+                        "image"    : ""
                         });
 		$location.path('/detail'+id_last);                    
 	}	
 });
-
-
-// Delete controller ////////////////////////////////////////////////////////////////////////////////////////
-
-myApp.controller('DeleteCtrl', function($scope, $routeParams, $location, $webSql)
-{
-
-
-});
-
 
 
 

@@ -131,7 +131,7 @@ myApp.controller('ListCtrl', function($scope, $location, $webSql)
 
 // Data controller ////////////////////////////////////////////////////////////////////////////////////////
 
-myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql)
+myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, Camera)
 {
 
     // Identifiant du bloc à éditer
@@ -168,21 +168,17 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql)
         $location.path('/list');
     }
                  
-    $scope.shoot = function (){ // Lancement de l'appareil photo
-        navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
-    }
-                 
-                 
-    onSuccess = function (imageURI) { // Succès de la prise de photo
-        alert(imageURI);
-        alert("success, relocating");
-        $location.path('/list');
-        //$location.path('/image'+imageURI);
-    }
-                 
-    onFail = function (message) { // Echec de la prise de photo
-        alert('Failed because: ' + message);
-    }
+              
+    // fonction pour prendre une photo, utilisant le module Camera
+    $scope.getPhoto = function() {
+        Camera.getPicture().then(function(imageURI) {
+            $scope.schema= imageURI;
+            console.log(imageURI);
+        }, function(err) {
+            console.err(err);
+        });
+    };
+    
                           
 });
 

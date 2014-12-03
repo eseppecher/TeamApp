@@ -40,30 +40,30 @@
         
     <br>
         
-    <!-- Boulder's picture -->
-    Photo : {{line.picture}}
+    <!-- Boulder's image -->
+    Photo : {{line.image}}
 
     <br> <br>
 
     <center>
     
         <!-- Button Edit -->
-        <button type="button" class="btn btn-info" ng-click="edit(line.id)">
+        <button class="btn btn-default btn-lg" ng-click="edit(line.id)">
             <i class="fa fa-pencil"></i>
         </button>
-        <!-- Button Delete -->
-        <button type="button" class="btn btn-danger" ng-click="delete(line.id)">
-            <i class="fa fa-trash-o"></i>
-        </button>
-        <!-- Button Picture -->
+        <!-- Button image -->
         <button class="btn btn-default btn-lg" ng-click="getPhoto()">
             <i class="fa fa-camera"></i>
-            Prendre une photo
         </button>
+        <!-- Button Delete -->
+        <button class="btn btn-danger btn-lg" ng-click="delete(line.id)">
+            <i class="fa fa-trash-o"></i>
+        </button>
+
         
         
         
-        <img widht="200px" ng-src="{{schema}}" > </img>
+        <img ng-src="{{line.image}}" width="200"> </img>
         
         
         

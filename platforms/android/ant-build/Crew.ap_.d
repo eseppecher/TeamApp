@@ -148,7 +148,11 @@
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/css/bonoway.css \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/css/font-awesome.min.css \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/Input-lines.html \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/input-old.html \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/Input-sectors.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/input.html \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/lines.txt.sb-04b4f046-4Tu4pX \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/fonts/fontawesome-webfont.eot \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/fonts/fontawesome-webfont.svg \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/fonts/fontawesome-webfont.ttf \
