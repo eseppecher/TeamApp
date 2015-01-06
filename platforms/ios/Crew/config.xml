@@ -22,10 +22,6 @@
     <feature name="Geolocation">
         <param name="ios-package" value="CDVLocation" />
     </feature>
-    <feature name="Camera">
-        <param name="ios-package" value="CDVCamera" />
-    </feature>
-    <preference name="CameraUsesGeolocation" value="false" />
     <name>Crew</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -35,4 +31,8 @@
     </author>
     <content src="index.html#/home" />
     <access origin="*" />
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera" />
+    </feature>
+    <preference name="CameraUsesGeolocation" value="false" />
 </widget>

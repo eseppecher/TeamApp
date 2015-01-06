@@ -1,15 +1,30 @@
+
+
 <!-- Webpage detail.html -->
+
+<div class="row primarybar"> <!-- NAVBAR -->
+    <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
+    <a href="" class="col-xs-2" ng-click="edit(line.id)"> <i class="fa fa-pencil"></i> </a>
+    <a href="" class="col-xs-2" ng-click="getPhoto()"> <i class="fa fa-camera"></i> </a>
+    <a href="" class="col-xs-2" ng-click=""> <i class="fa fa-map-marker"></i> </a>
+    <a href="" class="col-xs-2" ng-click="delete(line.id)"> <i class="fa fa-trash-o"></i> </a>
+    
+    
+</div>
+
+<div class="secondarybart">
+    <a  href ng-click="backSector(line.site,line.sector)"  class="back"> <i class="fa fa-chevron-left"></i> </a>
+    <h3> <div class="line-title" padding-left="15%" ng-bind-html="line.name"> </div>
+        <div class="line-title" ng-bind-html="line.grade"> </div>
+        <div class="line-title" ng-bind-html="line.rate | makeRate"> </div>
+        <div class="line-title"> <small> #tag1 #rag2 </small></div>
+    </h3>
+</div>
+
 
 
 <div class="container-fluid">
 
-    <center>
-    	<!-- Button Return -->
-        <button type="button" class="btn btn-default btn-lg" ng-click="list()">
-            <i class="fa fa-list"></i>
-            Retour à la liste
-        </button>
-    </center> 
       
     <h3> Détail du bloc </h3>
 
@@ -46,19 +61,6 @@
     <br> <br>
 
     <center>
-    
-        <!-- Button Edit -->
-        <button class="btn btn-default btn-lg" ng-click="edit(line.id)">
-            <i class="fa fa-pencil"></i>
-        </button>
-        <!-- Button image -->
-        <button class="btn btn-default btn-lg" ng-click="getPhoto()">
-            <i class="fa fa-camera"></i>
-        </button>
-        <!-- Button Delete -->
-        <button class="btn btn-danger btn-lg" ng-click="delete(line.id)">
-            <i class="fa fa-trash-o"></i>
-        </button>
 
         
         

@@ -15,7 +15,26 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 		// Page d'acceuil
 		.when('/home', {
 			templateUrl : 'partials/home.html',
+            controller	: 'HomeCtrl'
 		})
+         
+        // Page d'un site
+        .when('/site/:siteId', {
+            templateUrl : 'partials/site/detail.html',
+            controller  : 'SiteDetailCtrl'
+        })
+         
+        //SECTOR-list DETAIL with id transfer through URL
+        .when('/site/:siteId/sector/:sectorId', {
+            templateUrl: 'partials/site/list.html',
+              controller: 'SectorCtrl'
+        })
+        
+        // LINE DETAIL with id transfer through URL
+        .when('/line/:lineId', {
+            templateUrl : 'partials/detail.html',
+            controller  : 'DataCtrl'
+        })
 		
 		// Page de la liste
         .when('/list', {
@@ -40,15 +59,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
             templateUrl : 'partials/delete.html',
             controller  : 'DataCtrl'
         })
+    
         
         // Page d'ajout d'un nouveau bloc
-        .when('/image:imageURI', {
-            templateUrl : 'partials/image.html',
-            controller  : 'ImageCtrl'
-        })
-        
-        // Page d'ajout d'un nouveau bloc
-        .when('/add', {
+        .when('/add/:siteId/sector/:sectorId', {
             templateUrl : 'partials/add.html',
             controller  : 'AddCtrl'
         })
