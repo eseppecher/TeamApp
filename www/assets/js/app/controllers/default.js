@@ -167,7 +167,6 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
     };
                  
                  $scope.getPhoto = function() {
-                 alert("taking pic");
                  Camera.getPicture().then(function(imageURI) {
                                         db.update("lines", {"image": imageURI}, {'id': id});
                                         

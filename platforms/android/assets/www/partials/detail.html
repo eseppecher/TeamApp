@@ -12,24 +12,21 @@
     
 </div>
 
+
+
 <div class="secondarybart">
     <a  href ng-click="backSector(line.site,line.sector)"  class="back"> <i class="fa fa-chevron-left"></i> </a>
     <h3> <div class="line-title" padding-left="15%" ng-bind-html="line.name"> </div>
         <div class="line-title" ng-bind-html="line.grade"> </div>
-        <div class="line-title" ng-bind-html="line.rate | makeRate"> </div>
-        <div class="line-title"> <small> #tag1 #rag2 </small></div>
+
     </h3>
 </div>
 
 
+<br> <br> <br> <br>
 
 <div class="container-fluid">
-
-      
-    <h3> Détail du bloc </h3>
-
-    <br>
-
+    
     <!-- Boulder's name -->
     Nom : {{line.name}}
        
@@ -54,21 +51,12 @@
     Description : {{line.description}}
         
     <br>
-        
+    
     <!-- Boulder's image -->
     Photo : {{line.image}}
 
     <br> <br>
 
-    <center>
-
-        
-        
-        
-        <img ng-src="{{line.image}}" width="200"> </img>
-        
-        
-        
-    </center>
+<img alt="Pas de photo" width="100%" height="auto" ng-src="{{line.image}}">
 
 </div>

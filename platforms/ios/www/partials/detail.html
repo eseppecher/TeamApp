@@ -1,20 +1,32 @@
+
+
 <!-- Webpage detail.html -->
 
+<div class="row primarybar"> <!-- NAVBAR -->
+    <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
+    <a href="" class="col-xs-2" ng-click="edit(line.id)"> <i class="fa fa-pencil"></i> </a>
+    <a href="" class="col-xs-2" ng-click="getPhoto()"> <i class="fa fa-camera"></i> </a>
+    <a href="" class="col-xs-2" ng-click=""> <i class="fa fa-map-marker"></i> </a>
+    <a href="" class="col-xs-2" ng-click="delete(line.id)"> <i class="fa fa-trash-o"></i> </a>
+    
+    
+</div>
+
+
+
+<div class="secondarybart">
+    <a  href ng-click="backSector(line.site,line.sector)"  class="back"> <i class="fa fa-chevron-left"></i> </a>
+    <h3> <div class="line-title" padding-left="15%" ng-bind-html="line.name"> </div>
+        <div class="line-title" ng-bind-html="line.grade"> </div>
+
+    </h3>
+</div>
+
+
+<br> <br> <br> <br>
 
 <div class="container-fluid">
-
-    <center>
-    	<!-- Button Return -->
-        <button type="button" class="btn btn-default btn-lg" ng-click="list()">
-            <i class="fa fa-list"></i>
-            Retour à la liste
-        </button>
-    </center> 
-      
-    <h3> Détail du bloc </h3>
-
-    <br>
-
+    
     <!-- Boulder's name -->
     Nom : {{line.name}}
        
@@ -39,34 +51,12 @@
     Description : {{line.description}}
         
     <br>
-        
-    <!-- Boulder's picture -->
-    Photo : {{line.picture}}
+    
+    <!-- Boulder's image -->
+    Photo : {{line.image}}
 
     <br> <br>
 
-    <center>
-    
-        <!-- Button Edit -->
-        <button type="button" class="btn btn-info" ng-click="edit(line.id)">
-            <i class="fa fa-pencil"></i>
-        </button>
-        <!-- Button Delete -->
-        <button type="button" class="btn btn-danger" ng-click="delete(line.id)">
-            <i class="fa fa-trash-o"></i>
-        </button>
-        <!-- Button Picture -->
-        <button class="btn btn-default btn-lg" ng-click="getPhoto()">
-            <i class="fa fa-camera"></i>
-            Prendre une photo
-        </button>
-        
-        
-        
-        <img widht="200px" ng-src="{{schema}}" > </img>
-        
-        
-        
-    </center>
+<img alt="Pas de photo" width="100%" height="auto" ng-src="{{line.image}}">
 
 </div>
