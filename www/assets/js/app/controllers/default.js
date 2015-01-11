@@ -235,6 +235,12 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         id = parseInt($routeParams.siteId);
         idd = parseInt($routeParams.sectorId);
                  
+                 $scope.name         = ""; // initializing modal for addition
+                 $scope.grade        = "6a"; // initializing modal for addition
+                 $scope.rate         = -1; // initializing modal for addition
+                 $scope.description  = ""; // initializing modal for addition
+                 $scope.sector       = idd; // initializing modal for addition
+                 
         var sita;
                  
         $scope.currency = idd;
@@ -304,25 +310,47 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         $scope.addLine = function() {
                  $location.path('/add/' + id + '/sector/' + idd);
         };
+            
                  
+        // Annuler l'édition et remmetre à jours les ng-model
+        $scope.cancelAdd = function() {
+                 $scope.name         = ""; // resseting the ng-model
+                 $scope.grade        = "6a"; // resseting the ng-model
+                 $scope.rate         = -1; // resseting the ng-model
+                 $scope.description  = ""; // resseting the ng-model
+                 $scope.sector       = idd; // resseting the ng-model
                  
+                 $('#addModal').modal('hide');
+        };
                  
-});
-
-
-
-// TO BE DELETED ////////////////////////////////////////////////////////////////////////////////////////
-myApp.controller('ListCtrl', function($scope, $location, $webSql)
-{
-
-    $scope.lines = [];
-    
-    db.selectAll("lines").then(function(results) {
-        for(i=0; i < results.rows.length; i++) {
-                $scope.lines.push(results.rows.item(i));
+        $scope.saveAdd = function() {
+                 var d = new Date();
+                 var time = d.getTime();
+                 alert($scope.description);
+                 
+                 db.insert('lines', {
+                           "id"         : time,
+                           "name"       : $scope.name,
+                           "grade"      : $scope.grade,
+                           "rate"       : $scope.rate,
+                           "description": $scope.description,
+                           "latitude"   : "",
+                           "longitude"  : "",
+                           "accuracy"   : 1000,
+                           "sector"     : $scope.sector,
+                           "site"     : id,
+                           "image"    : "",
+                           "date"    : time
+                           });
+                 $('#addModal').modal('hide');
+                 $('body').removeClass('modal-open');
+                 $('.modal-backdrop').remove();
+                 
+                 $location.path('/line/' + time);
         }
-    });
- 
+
+                 
+                 
 });
 
 
@@ -336,17 +364,33 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
     
     // Liste des données du bloc à éditer      
     $scope.line = {};
+    $scope.sectors = [];
+    $scope.edit = {};
     
     // Récupération des données du bloc dans la liste 
     db.select("lines", {"id":{"value":id}}).then(
         function(results) {
             $scope.line         = results.rows.item(0);
-                                                 $scope.accuracy     = results.rows.item(0).accuracy;
-        }
-    );
+            $scope.name         = results.rows.item(0).name; // for edit ng-model
+            $scope.grade        = results.rows.item(0).grade; // for edit ng-model
+            $scope.rate         = results.rows.item(0).rate; // for edit ng-model
+            $scope.description  = results.rows.item(0).drescription; // for edit ng-model
+            $scope.sector       = results.rows.item(0).sector; // for edit ng-model
+            $scope.site         = results.rows.item(0).site; // for edit ng-model
+            $scope.accuracy     = results.rows.item(0).accuracy;
+            var siteId = results.rows.item(0).site;
+                                    
+                                                 db.select("sectors",{"site":{"value":siteId}}).then(function(results) {
+                                                                                                 for(var i=0; i < results.rows.length; i++){
+                                                                                                 $scope.sectors.push(results.rows.item(i));
+                                                                                                 }});
+        });
     
-    // Fonction : enregistrer les données
-    $scope.update = function(name, sector, grade, rate, description) {
+
+                 
+                 
+    // Enregistrer les données après l'édition
+    $scope.updateEdit = function(name, sector, grade, rate, description) {
         var d = new Date();
         var time = d.getTime();
         db.update("lines", {"name"       : name,
@@ -356,11 +400,23 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                             "sector"     : sector,
                             "date": time
                            }, {'id': id});
+        $('#editModal').modal('hide');
                  
-        $location.path('/line/'+id);
     };
     
-    // Fonction : supprimer un bloc
+    // Annuler l'édition et remmetre à jours les ng-model
+    $scope.cancelEdit = function() {
+        $scope.name         = $scope.line.name; // resseting the ng-model
+        $scope.grade        = $scope.line.grade; // resseting the ng-model
+        $scope.rate         = $scope.line.rate; // resseting the ng-model
+        $scope.description  = $scope.line.drescription; // resseting the ng-model
+        $scope.sector       = $scope.line.sector; // resseting the ng-model
+                 
+        $('#editModal').modal('hide');
+    };
+                 
+                 
+    // Supprimer un bloc
     $scope.delete_route = function() {
         db.del('lines', {"id": id});
                  $('#deleteModal').modal('hide');
@@ -368,21 +424,18 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                  $('.modal-backdrop').remove();
         $location.path('/site/' + $scope.line.site + '/sector/' + $scope.line.sector);
     }
-                 
-                 
-    // fonction pour prendre une photo, utilisant le module Camera
-
-                 
+    
+    // Retour à la vue secteur, avec une alert si le GPS tourne
     $scope.backSector = function() {
         if(gpsoff == false){
-                 
                  $('#backModal').modal('show');
         }
         else{
-                 $location.path('/site/' + $scope.line.site + '/sector/' + $scope.line.sector);
+                 $location.path('/site/' + $scope.site + '/sector/' + $scope.sector);
         }
     };
-                
+    
+    // Sauvegarder la postion avec redirection a la vue secteur si requete en cours
     $scope.savePosition = function(redirection){
                  gpsoff = true;
                  
@@ -401,7 +454,8 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                  }
                  
     };
-                 
+    
+    // Abandon du GPS et retour à la vue secteur
     $scope.forgetPosition = function(){
                  gpsoff = true;
                  $('#backModal').modal('hide');
@@ -477,27 +531,4 @@ myApp.controller('AddCtrl', function($scope, $location, $routeParams, $webSql)
                  $location.path('/site/' + siteId + '/sector/' + sectorId);
         };
 	
-});
-
-
-
-
-
-// Gps controller ////////////////////////////////////////////////////////////////////////////////////////
-
-myApp.controller('GpsCtrl', function($scope, $routeParams, $location, $webSql)
-{
-
-    // Fonction : aquisition des données gps             
-    $scope.pingGps = function(){
-        gpsTriger();
-    };
-    
-        // Fonction : enregistrer les données
-    $scope.updateGPS = function() {
-        db.update("lines", {"latitude" : CurrentLatitude }, {'id': id });
-        db.update("lines", {"longitude": CurrentLongitude}, {'id': id });
-        db.update("lines", {"accuracy" : CurrentAccuracy }, {'id': id });
-        gpsoff == true;
-    }
 });

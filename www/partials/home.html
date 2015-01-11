@@ -10,7 +10,7 @@
 
 
 <!-- Head -->
-<div class="container-fluid">
+<div class="container-fluid" style="background-image: url(datas/bonobo.png);   background-repeat: no-repeat; 	background-position: 10% 20%;  background-position: center;">
 <center>
 
 <!-- Title -->
@@ -26,16 +26,17 @@
 
 <!-- Tail -->
 </center>
-</div>
+
 
 <!-- LIST OF SITES - tiles style  -->
 
 <div class="row tile" ng-repeat="site in sites" ng-click="detail(site.id)">
-    <img class="couvlist"   ng-src="img/{{site.couverture}}">  </img>
     <div class="col-xs-8">
         <h3> {{site.name}} <span class="badge">{{site.volume}}</span> <br>
             <small> {{site.tags}} </small> </h3>
     </div>
     <div class="col-xs-4" id="row2">
     </div>
+</div>
+
 </div>
