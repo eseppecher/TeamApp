@@ -23,6 +23,10 @@ a:hover {
     color: #007aff;
 }
 
+.vibrant{
+    color: #fff;
+    background: #007aff;
+}
 
 .list-group-item > .badge{
     

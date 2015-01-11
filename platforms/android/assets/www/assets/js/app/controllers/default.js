@@ -1,6 +1,6 @@
 // Déclaration de la variable des données
 var db;
-var id_last;
+var gpsoff=true;
 
 
 // Main controller ////////////////////////////////////////////////////////////////////////////////////////
@@ -65,9 +65,12 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "latitude"   : { "type": "TEXT"      },
                         "longitude"  : { "type": "TEXT"      },
                         "accuracy"   : { "type": "INTEGER"   },
+                        "image"      : { "type": "TEXT"      },
                         "site"       : { "type": "INTEGER"   },
                         "sector"     : { "type": "INTEGER"   },
-                        "image"      : { "type": "TEXT"      }
+                        "rank"     : { "type": "INTEGER"   },
+                        "date"     : { "type": "INTEGER"   }
+                       
         });
                  
         // Filling tables with data from input.html
@@ -100,10 +103,6 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
 
         for (var i=0; i<dataLines.length; i++) {
             // Mise en mémoire de l'identifiant du dernier bloc
-            if (i == dataLines.length-1 ) {
-                id_last = dataLines[i].id;
-                alert(id_last);
-            }
             db.insert('lines', {
                         "id"         : dataLines[i].id,
                         "topo"       : dataLines[i].topo,
@@ -116,7 +115,9 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "accuracy"   : dataLines[i].accuracy,
                         "site"       : dataLines[i].site,
                         "sector"     : dataLines[i].sector,
-                        "image"      : dataLines[i].picture
+                        "image"      : dataLines[i].picture,
+                        "rank"       : dataLines[i].rank,
+                        "date"       : dataLines[i].date
                         }).then(function(results) { console.log(results.insertId); });
         }        
         alert('data imported from "input.html"');                     
@@ -168,7 +169,9 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                  
                  $scope.getPhoto = function() {
                  Camera.getPicture().then(function(imageURI) {
-                                        db.update("lines", {"image": imageURI}, {'id': id});
+                                        var d = new Date();
+                                        var time = d.getTime();
+                                        db.update("lines", {"image": imageURI, "date": time}, {'id': id});
                                         
                                         $location.path('/detail'+id);
                                         
@@ -178,6 +181,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                                         });
                  };
     
+                 
 	
 });
 
@@ -326,7 +330,7 @@ myApp.controller('ListCtrl', function($scope, $location, $webSql)
 // Data controller ////////////////////////////////////////////////////////////////////////////////////////
 myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, Camera)
 {
-
+     $scope.localizing = false;
     // Identifiant du bloc à éditer
     id = parseInt($routeParams.lineId);
     
@@ -337,44 +341,82 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
     db.select("lines", {"id":{"value":id}}).then(
         function(results) {
             $scope.line         = results.rows.item(0);
-            $scope.name         = results.rows.item(0).name;
-            $scope.grade        = results.rows.item(0).grade;
-            $scope.site         = results.rows.item(0).site;
-            $scope.sector       = results.rows.item(0).sector;
-            $scope.rate         = results.rows.item(0).rate;
-            $scope.description  = results.rows.item(0).description;
-            $scope.image  = results.rows.item(0).image;
+                                                 $scope.accuracy     = results.rows.item(0).accuracy;
         }
     );
     
     // Fonction : enregistrer les données
     $scope.update = function(name, sector, grade, rate, description) {
-        db.update("lines", {"name"       : name       }, {'id': id});
-        db.update("lines", {"sector"     : sector     }, {'id': id});
-        db.update("lines", {"grade"      : grade      }, {'id': id});
-        db.update("lines", {"rate"       : rate       }, {'id': id});
-        db.update("lines", {"description": description}, {'id': id});
-        db.update("lines", {"image": "imageURI"}, {'id': id});
+        var d = new Date();
+        var time = d.getTime();
+        db.update("lines", {"name"       : name,
+                            "grade"      : grade,
+                            "rate"       : rate,
+                            "description": description,
+                            "sector"     : sector,
+                            "date": time
+                           }, {'id': id});
+                 
         $location.path('/line/'+id);
     };
     
     // Fonction : supprimer un bloc
     $scope.delete_route = function() {
         db.del('lines', {"id": id});
-        $location.path('/site/:'+ $scope.site + '/sector/:' + $scope.sector);
+                 $('#deleteModal').modal('hide');
+                 $('body').removeClass('modal-open');
+                 $('.modal-backdrop').remove();
+        $location.path('/site/' + $scope.line.site + '/sector/' + $scope.line.sector);
     }
                  
-    $scope.cancel = function(id){
-         $location.path('/line/'+id);
-    }
                  
     // fonction pour prendre une photo, utilisant le module Camera
 
                  
-    $scope.backSector = function(siteId,sectorId) {
-                 $location.path('/site/' + siteId + '/sector/' + sectorId);
+    $scope.backSector = function() {
+        if(gpsoff == false){
+                 
+                 $('#backModal').modal('show');
+        }
+        else{
+                 $location.path('/site/' + $scope.line.site + '/sector/' + $scope.line.sector);
+        }
     };
-    
+                
+    $scope.savePosition = function(redirection){
+                 gpsoff = true;
+                 
+                 db.update("lines", {"latitude" : CurrentLatitude }, {'id': id });
+                 db.update("lines", {"longitude": CurrentLongitude}, {'id': id });
+                 db.update("lines", {"accuracy" : CurrentAccuracy }, {'id': id });
+                 $('#backModal').modal('hide');
+                 $('body').removeClass('modal-open');
+                 $('.modal-backdrop').remove();
+                 if(redirection==true){
+                    $scope.backSector();
+                 }
+                 else{
+                    $scope.accuracy = CurrentAccuracy;
+                    $scope.localizing = false;
+                 }
+                 
+    };
+                 
+    $scope.forgetPosition = function(){
+                 gpsoff = true;
+                 $('#backModal').modal('hide');
+                 $('body').removeClass('modal-open');
+                 $('.modal-backdrop').remove();
+                 $scope.backSector();
+    };
+
+                 
+    //GPS request foncution common of all to not having it stoping while editing
+    $scope.pingGps = function(){
+        $scope.localizing = true;
+        gpsTriger();
+    };
+                 
                           
 });
 
@@ -385,27 +427,47 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
 
 myApp.controller('AddCtrl', function($scope, $location, $routeParams, $webSql)
 {
+    
+    if (i == dataLines.length-1 ) {
+            id_last = dataLines[i].id;
+                 alert(id_last);
+                 }
+    alert(id_last);
                  
     siteId = parseInt($routeParams.siteId);
     sectorId = parseInt($routeParams.sectorId);
+    
+    /* Getting sector for dropdown list form */
+    $scope.sectors = [];
                  
-                 
+    db.select("sectors",{"site":{"value":siteId}}).then(function(results) {    
+                                                for(var i=0; i < results.rows.length; i++){
+                                                            $scope.sectors.push(results.rows.item(i));
+                                                }
+    });
+                                                                                                                  
                  
                  
 	$scope.save = function(name, sector, grade, rate, description) {
+                 alert("saving " + name + " " + grade + " " + sector + " at " + siteId );
 	    id_last = id_last + 1;
+                 alert(id_last);
+        var d = new Date();
+        var time = d.getTime();
+        
 	    db.insert('lines', {
                         "id"         : id_last,
-                        "topo"       : "",
                         "name"       : name,
-                        "grade"      : grade,
+                        "grade"      : "6a",
                         "rate"       : rate,
                         "description": description,
                         "latitude"   : "",
                         "longitude"  : "",
                         "accuracy"   : 1000,
                         "sector"     : sector,
-                        "image"    : ""
+                        "site"     : siteId,
+                        "image"    : "",
+                        "date"    : time
                         });
                  
 		$location.path('/detail'+id_last);

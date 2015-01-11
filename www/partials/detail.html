@@ -6,8 +6,8 @@
     <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
     <a href="" class="col-xs-2" ng-click="edit(line.id)"> <i class="fa fa-pencil"></i> </a>
     <a href="" class="col-xs-2" ng-click="getPhoto()"> <i class="fa fa-camera"></i> </a>
-    <a href="" class="col-xs-2" ng-click=""> <i class="fa fa-map-marker"></i> </a>
-    <a href="" class="col-xs-2" ng-click="delete(line.id)"> <i class="fa fa-trash-o"></i> </a>
+    <a href="" class="col-xs-2" ng-click="pingGps()"> <i class="fa fa-map-marker"></i> </a>
+    <a href="" class="col-xs-2" data-toggle="modal" data-target="#deleteModal"> <i class="fa fa-trash-o"></i> </a>
     
     
 </div>
@@ -25,17 +25,13 @@
 
 <br> <br> <br> <br>
 
-<div class="container-fluid">
+<div class="container-fluid lead">
     
     <!-- Boulder's name -->
     Nom : {{line.name}}
        
     <br>
-        
-    <!-- Boulder's sector -->
-    Secteur : {{line.sector}}
-     
-    <br>
+    
 
     <!-- Boulder's grade -->
     Cotation : {{line.grade}}
@@ -46,17 +42,60 @@
     Note : {{line.rate}}
      
     <br>
-        
+    
+    <!-- Boulder's sector -->
+    Secteur : {{line.sector}}
+    
+    <br>
+    
     <!-- Boulder's description -->
     Description : {{line.description}}
         
-    <br>
+    <br><br>
+    Localisation GPS : {{localizing}} - {{accuracy}}   <button type="submit" class="btn btn-dfault vibrant" ng-hide="!localizing" ng-show="localizing" ng-click="savePosition(false)"> Sauvegarder </button>
+   <br> <br>
+   <div class="progress" ng-hide="!localizing" ng-show="localizing" id="gpssection"> </div>
     
-    <!-- Boulder's image -->
-    Photo : {{line.image}}
 
-    <br> <br>
+    <br>
 
 <img alt="Pas de photo" width="100%" height="auto" ng-src="{{line.image}}">
 
+</div>
+
+
+<!-- Modal GPS forgot to save -->
+<div class="modal fade" id="backModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body lead"> <center>
+                Voulez vous enregistrer la localisation GPS ? Sinon elle sera perdu.
+                
+                <br> <br> <br>
+                
+                <button type="button" class="btn btn-primary" ng-click="savePosition(true)">Sauvegarder </button>
+                <button type="button" class="btn btn-default" ng-click="forgetPosition()"> Abandonner</button>
+            <center></div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal GPS forgot to save -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body lead"> <center>
+                Voulez supprimer définitivement le bloc {{line.name}} ? Il sera perdu à tou jamais...
+                
+                <br> <br> <br>
+                
+                <button type="button" class="btn btn-danger" ng-click="delete_route()"> <i class="fa fa-trash-o"></i> Supprimer </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"> Annuler </button>
+            <center></div>
+            
+        </div>
+    </div>
 </div>
