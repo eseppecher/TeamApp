@@ -147,6 +147,7 @@
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/assets/less/font-awesome/variables.less \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/css/bonoway.css \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/css/font-awesome.min.css \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/bonobo.png \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/input-lines.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/datas/html/input-sectors.html \
@@ -3038,10 +3039,7 @@
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/node_modules/grunt-contrib-watch/tasks/lib/taskrunner.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/add.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/default.html \
-/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/delete.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/detail.html \
-/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/edit.html \
-/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/gps.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/home.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/list.html \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/partials/site \

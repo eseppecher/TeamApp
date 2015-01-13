@@ -4,20 +4,16 @@
 
 <div class="row primarybar"> <!-- NAVBAR -->
     <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
-    <a href="" class="col-xs-2" ng-click="edit(line.id)"> <i class="fa fa-pencil"></i> </a>
+    <a href="" class="col-xs-2" data-toggle="modal" data-target="#editModal"> <i class="fa fa-pencil"></i> </a>
     <a href="" class="col-xs-2" ng-click="getPhoto()"> <i class="fa fa-camera"></i> </a>
     <a href="" class="col-xs-2" ng-click="pingGps()"> <i class="fa fa-map-marker"></i> </a>
     <a href="" class="col-xs-2" data-toggle="modal" data-target="#deleteModal"> <i class="fa fa-trash-o"></i> </a>
-    
-    
 </div>
 
-
-
 <div class="secondarybart">
-    <a  href ng-click="backSector(line.site,line.sector)"  class="back"> <i class="fa fa-chevron-left"></i> </a>
-    <h3> <div class="line-title" padding-left="15%" ng-bind-html="line.name"> </div>
-        <div class="line-title" ng-bind-html="line.grade"> </div>
+    <a  href ng-click="backSector()"  class="back"> <i class="fa fa-chevron-left"></i> </a>
+    <h3> <div class="line-title" padding-left="15%" ng-bind-html="name"> </div>
+        <div class="line-title" ng-bind-html="grade"> </div>
 
     </h3>
 </div>
@@ -28,38 +24,35 @@
 <div class="container-fluid lead">
     
     <!-- Boulder's name -->
-    Nom : {{line.name}}
+    Nom : {{name}}
        
     <br>
     
 
     <!-- Boulder's grade -->
-    Cotation : {{line.grade}}
+    Cotation : {{grade}}
      
     <br>
 
     <!-- Boulder's beauty -->
-    Note : {{line.rate}}
+    Note : {{rate}}
      
     <br>
     
     <!-- Boulder's sector -->
-    Secteur : {{line.sector}}
+    Secteur : {{sector}}
     
     <br>
     
     <!-- Boulder's description -->
-    Description : {{line.description}}
+    Description : {{description}}
         
     <br><br>
     Localisation GPS : {{localizing}} - {{accuracy}}   <button type="submit" class="btn btn-dfault vibrant" ng-hide="!localizing" ng-show="localizing" ng-click="savePosition(false)"> Sauvegarder </button>
    <br> <br>
    <div class="progress" ng-hide="!localizing" ng-show="localizing" id="gpssection"> </div>
     
-
-    <br>
-
-<img alt="Pas de photo" width="100%" height="auto" ng-src="{{line.image}}">
+   <br> <img alt="Pas de photo" width="100%" height="auto" ng-src="{{line.image}}">
 
 </div>
 
@@ -82,7 +75,8 @@
     </div>
 </div>
 
-<!-- Modal GPS forgot to save -->
+
+<!-- Modal Delete -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -99,3 +93,77 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal edit -->
+
+<div class="modal bs-example-modal-lg fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body lead">
+                <h3 align="center"> Modification d'un bloc </h3>
+                
+                
+                <form role="form" name="edit_form" action="javascript:void(0);">
+                    
+                    Nom : <input type="text" ng-model="name" class="form-control">
+                        
+                    <br> Cotation : <select ng-model="grade" class="form-control" placeholder="grade">
+                            <option>3a</option>
+                            <option>3a+</option>
+                            <option>3b</option>
+                            <option>3b+</option>
+                            <option>3c</option>
+                            <option>3c+</option>
+                            <option>4a</option>
+                            <option>4a+</option>
+                            <option>4b</option>
+                            <option>4b+</option>
+                            <option>5c</option>
+                            <option>5c+</option>
+                            <option>6a</option>
+                            <option>6a+</option>
+                            <option>6b+</option>
+                            <option>6c</option>
+                            <option>6c+</option>
+                            <option>7a</option>
+                            <option>7a+</option>
+                            <option>7b</option>
+                            <option>7b+</option>
+                            <option>7c</option>
+                            <option>7c+</option>
+                            <option>8a</option>
+                            <option>8a+</option>
+                            <option>8b</option>
+                            <option>8b+</option>
+                            <option>9a</option>
+                            <option>9a+</option>
+                            <option>9b+</option>
+                            <option>projet</option>
+                        </select>
+                        
+                        <br> Note : <select ng-model="rate" class="form-control" style="font-family:'FontAwesome'">
+                                <option value='-1'> Sans avis </option>
+                                <option value='0'>  Ugly </option>
+                                <option value='1'> Not bad </option>
+                                <option value='2'> Nice </option>
+                                <option value='3'> Magnificient </option>
+                            </select>
+                                
+                        <br> Description : <textarea ng-model="description" class="form-control" rows="3" placeholder="description"> </textarea>
+                                
+                        <br> Secteur : <select ng-model="sector" class="form-control">
+                                    <option ng-repeat="item in sectors" ng-selected="sector==item.id" ng-value="item.id"> {{item.name}} </option>
+                                 </select>
+                </form>
+
+                
+                 <br>
+                <center> <button type="button" class="btn btn-default vibrant" ng-click="updateEdit(name, sector, grade, rate, description)">Sauvegarder </button> <button type="button" class="btn btn-default" ng-click="cancelEdit()"> Abandonner</button> </center>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

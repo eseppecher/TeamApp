@@ -30,33 +30,9 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
               controller: 'SectorCtrl'
         })
         
-        // LINE DETAIL with id transfer through URL
+        // Page du détail d'un bloc : edition, photo, gps, suppression
         .when('/line/:lineId', {
             templateUrl : 'partials/detail.html',
-            controller  : 'DataCtrl'
-        })
-		
-		// Page de la liste
-        .when('/list', {
-            templateUrl : 'partials/list.html',
-            controller  : 'ListCtrl'
-        })
-        
-        // Page du détail d'un bloc
-        .when('/detail:lineId', {
-            templateUrl : 'partials/detail.html',
-            controller  : 'DataCtrl'
-        })
-        
-        // Page d'édition d'un bloc
-        .when('/edit:lineId', {
-            templateUrl : 'partials/edit.html',
-            controller  : 'DataCtrl'
-        })
-        
-        // Page de suppression d'un bloc
-        .when('/delete:lineId', {
-            templateUrl : 'partials/delete.html',
             controller  : 'DataCtrl'
         })
     
