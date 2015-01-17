@@ -162,8 +162,11 @@
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/angular-sanitize.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/angular.min.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/jquery-2.1.1.min.js \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/jquery-ui.min.js \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/jquery.ui.touch-punch.min.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/modernizr.min.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/paper-full.min.js \
+/Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/sortable.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/ui-bootstrap-tpls-0.12.0.min.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/js/xgps2.js \
 /Users/etienne/Workspace/TeamApp/platforms/android/assets/www/node_modules/grunt \

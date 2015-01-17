@@ -1,6 +1,6 @@
 <div class="row primarybar"> <!-- NAVBAR -->
     <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
-    <a href="" class="col-xs-4" ng-click=""> <i class="fa fa-list"></i> </a>
+    <a href="" class="col-xs-4" data-toggle="modal" data-target="#orderModal"> <i class="fa fa-list"></i> </a>
     <a href="" class="col-xs-4" data-toggle="modal" data-target="#addModal"> <i class="fa fa-plus"></i> </a>
 </div>
 
@@ -21,7 +21,7 @@
 
 
 <!-- list of lines -->
-<div class="row" ng-repeat="line in lines" ng-click="detail(line.id)" ng-class="{valid:line.accuracy<=5}">
+<div  ui-sortable="{ 'ui-floating': true }" class="row" ng-repeat="line in lines" ng-click="detail(line.id)" ng-class="{valid:line.accuracy<=5}">
     <h4>
         <div class="col-xs-7" ng-class="{color: transparent:line.accuracy<=5}"ng-bind-html="line.name"> </div>
         <div class="col-xs-2" ng-bind-html="line.grade"> </div>
@@ -35,6 +35,9 @@
 
 
 <br> <br> <!-- top prevent last row to be under of the navbar SHOULD BE FIXED IN STYLE!!!!  -->
+
+
+
 
 <!-- Modal add -->
 
@@ -102,6 +105,32 @@
                 
                 <br>
                 <center> <button type="button" class="btn btn-default vibrant" ng-click="saveAdd()">Sauvegarder </button> <button type="button" class="btn btn-default" ng-click="cancelAdd()"> Abandonner</button> </center>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal order -->
+
+<div class="modal bs-example-modal-lg fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body lead">
+                <h3 align="center"> Ordre du secteur </h3>
+                <h3>
+                    <ul ui-sortable="{ 'ui-floating': true }" ng-model="lines">
+                        <li ng-repeat="line in lines" > {{ line.name }}</li>
+                    </ul>
+                </h3>
+                <br> <br>
+                ------------------------------------------- <br>
+                
+                <div ng:repeat="item in lines">{{item.name}} {{item.rank}} </div>
+                
+                <br>
+                <center> <button type="button" class="btn btn-default vibrant" ng-click="saveOrder()">Sauvegarder l'ordre</button> <button type="button" class="btn btn-default" ng-click="cancelOrder()"> Annuler </button> </center>
             </div>
             
         </div>
