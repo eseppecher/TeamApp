@@ -1,0 +1,95 @@
+/*!
+ * Team CSS v1.1
+ */
+
+
+
+/* COLOR AND MAIN STYLE GUIDELINES */
+
+body {
+    color: #4E5053;
+}
+
+.route{
+    color: #F45F7A;
+}
+
+/* _________________________________________________________ */
+
+/* FULL PAGE MODAL : views are contained in a container*/
+
+
+.modal-full {
+    width: 100%;
+    height: 100%;
+    background:#40AFE3;
+}
+
+.dialog-full {
+    width: 100%;
+    height: 100%;
+    background:#F45F7A;
+    margin: 0;
+}
+
+.content-full {
+    width: 100%;
+    height: 100%;
+    background:#F0F281;
+    margin: 0;
+}
+
+/*  // Footer (for actions)
+.modal-footer {
+    margin-top: 15px;
+    padding: (@modal-inner-padding - 1) @modal-inner-padding @modal-inner-padding;
+    text-align: right; // right align buttons
+    border-top: 1px solid @modal-footer-border-color;
+    &:extend(.clearfix all); // clear it in case folks use .pull-* classes on buttons
+    
+    // Properly space out buttons
+    .btn + .btn {
+        margin-left: 5px;
+        margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+    }
+    // but override that for button groups
+    .btn-group .btn + .btn {
+        margin-left: -1px;
+    }
+    // and override it for block buttons as well
+    .btn-block + .btn-block {
+        margin-left: 0;
+    }
+}
+
+// Scale up the modal
+@media (min-width: @screen-sm-min) {
+    // Automatically set modal's width for larger viewports
+    .modal-dialog {
+        width: @modal-md;
+        margin: 30px auto;
+    }
+    .modal-content {
+        .box-shadow(0 5px 15px rgba(0,0,0,.5));
+    }
+    
+    // Modal sizes
+    .modal-sm { width: @modal-sm; }
+}
+
+@media (min-width: @screen-md-min) {
+    .modal-lg { width: @modal-lg; }
+}  */
+
+
+/* _________________________________________________________ */
+
+/* NAVBAR PRIMARYBAR : bottom bar of navigation core of the app*/
+
+
+
+
+/* ----------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------- */

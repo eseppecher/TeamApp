@@ -1,7 +1,7 @@
 <div class="row primarybar"> <!-- NAVBAR -->
     <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
-    <a href="" class="col-xs-4" ng-click=""> <i class="fa fa-list"></i> </a>
-    <a href="" class="col-xs-4" ng-click="addLine()"> <i class="fa fa-plus"></i> </a>
+    <a href="" class="col-xs-4" ng-click="startOrder()"> <i class="fa fa-list"></i> </a>
+    <a href="" class="col-xs-4" data-toggle="modal" data-target="#addModal"> <i class="fa fa-plus"></i> </a>
 </div>
 
 
@@ -21,7 +21,7 @@
 
 
 <!-- list of lines -->
-<div class="row" ng-repeat="line in lines" ng-click="detail(line.id)" ng-class="{valid:line.accuracy<=5}">
+<div class="row" ng-repeat="line in lines | orderBy : 'rank'" ng-click="detail(line.id)" ng-class="{valid:line.accuracy<=5}">
     <h4>
         <div class="col-xs-7" ng-class="{color: transparent:line.accuracy<=5}"ng-bind-html="line.name"> </div>
         <div class="col-xs-2" ng-bind-html="line.grade"> </div>
@@ -35,3 +35,112 @@
 
 
 <br> <br> <!-- top prevent last row to be under of the navbar SHOULD BE FIXED IN STYLE!!!!  -->
+
+
+
+
+<!-- Modal add -->
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body lead">
+                <h3 align="center"> Ajout d'un bloc </h3>
+                
+                
+                <form role="form" name="edit_form" action="javascript:void(0);">
+                    
+                    Nom : <input type="text" ng-model="name" class="form-control">
+                        
+                        <br> Cotation : <select ng-model="grade" class="form-control" placeholder="grade">
+                            <option>3a</option>
+                            <option>3a+</option>
+                            <option>3b</option>
+                            <option>3b+</option>
+                            <option>3c</option>
+                            <option>3c+</option>
+                            <option>4a</option>
+                            <option>4a+</option>
+                            <option>4b</option>
+                            <option>4b+</option>
+                            <option>5c</option>
+                            <option>5c+</option>
+                            <option>6a</option>
+                            <option>6a+</option>
+                            <option>6b+</option>
+                            <option>6c</option>
+                            <option>6c+</option>
+                            <option>7a</option>
+                            <option>7a+</option>
+                            <option>7b</option>
+                            <option>7b+</option>
+                            <option>7c</option>
+                            <option>7c+</option>
+                            <option>8a</option>
+                            <option>8a+</option>
+                            <option>8b</option>
+                            <option>8b+</option>
+                            <option>9a</option>
+                            <option>9a+</option>
+                            <option>9b+</option>
+                            <option>projet</option>
+                        </select>
+                        
+                        <br> Note : <select ng-model="rate" class="form-control" style="font-family:'FontAwesome'">
+                            <option value='-1'> Sans avis </option>
+                            <option value='0'>  Ugly </option>
+                            <option value='1'> Not bad </option>
+                            <option value='2'> Nice </option>
+                            <option value='3'> Magnificient </option>
+                        </select>
+                        
+                        <br> Description : <input type="textarea" ng-model="description" class="form-control" rows="3" placeholder="description"> </input>
+                        
+                        <br> Secteur : <select ng-model="sector" class="form-control">
+                            <option ng-repeat="item in sectors" ng-selected="sector==item.id" ng-value="item.id"> {{item.name}} </option>
+                        </select>
+                        </form>
+                
+                
+                <br>
+                <center> <button type="button" class="btn btn-default vibrant" ng-click="saveAdd()">Sauvegarder </button> <button type="button" class="btn btn-default" ng-click="cancelAdd()"> Abandonner</button> </center>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal order -->
+
+<div class="modal modal-full fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <div class="container-fluid">
+
+    
+                <h3 align="center"> Ordre du secteur </h3>
+                
+                <br> <br>
+
+                <ul ui-sortable="{ 'ui-floating': true }" ng-model="listTemp">
+
+                <li class="row sorting" ng-repeat="line in listTemp" ng-class="{valid:line.accuracy<=5}">
+                    <h4>
+                        <div class="col-xs-7" ng-class="{color: transparent:line.accuracy<=5}"ng-bind-html="line.name"> </div>
+                        <div class="col-xs-2" ng-bind-html="line.grade"> </div>
+                    </h4>
+                    <h5>
+                        <div class="col-xs-3" id="row1" ng-class="{hide: line.image==''}"> <i class="fa fa-camera"></i></div>
+                        <small>
+                            <div class="col-xs-12"> #keyword </div>
+                        </small></h5>
+                </li>
+                <ul>
+
+                <br> <br> <br>
+                <center> <button type="button" class="btn btn-default vibrant" ng-click="saveOrder()">Sauvegarder</button> <button type="button" class="btn btn-default" ng-click="cancelOrder()"> Annuler </button> </center>
+
+            
+    
+    </div>
+</div>

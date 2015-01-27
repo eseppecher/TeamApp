@@ -22,46 +22,46 @@
 
         <!-- Boulder's grade -->
         Cotation : <select  class="form-control">    
-            <option value="1">3a</option>
-            <option value="3">3b</option>
-            <option value="5">3c</option>
-            <option value="7">4a</option>
-            <option value="9">4b</option>
-            <option value="11">4c</option>
+            <option>3a</option>
+            <option>3b</option>
+            <option>3c</option>
+            <option>4a</option>
+            <option>4b</option>
+            <option>4c</option>
             <option data-divider="true"></option>
-            <option value="13">5a</option>
-            <option value="14">5a+</option>
-            <option value="15">5b</option>
-            <option value="16">5b+</option>
-            <option value="17">5c</option>
-            <option value="18">5c+</option>
+            <option>5a</option>
+            <option>5a+</option>
+            <option>5b</option>
+            <option>5b+</option>
+            <option>5c</option>
+            <option>5c+</option>
             <option data-divider="true"></option>
-            <option selected value="19">6a</option>
-            <option value="20">6a+</option>
-            <option value="21">6b</option>
-            <option value="22">6b+</option>
-            <option value="23">6c</option>
-            <option value="24">6c+</option>
+            <option>6a</option>
+            <option>6a+</option>
+            <option>6b</option>
+            <option>6b+</option>
+            <option>6c</option>
+            <option>6c+</option>
+            <option></option>
+            <option>7a</option>
+            <option>7a+</option>
+            <option>7b</option>
+            <option>7b+</option>
+            <option>7c</option>
+            <option>7c+</option>
             <option data-divider="true"></option>
-            <option value="25">7a</option>
-            <option value="26">7a+</option>
-            <option value="27">7b</option>
-            <option value="28">7b+</option>
-            <option value="29">7c</option>
-            <option value="30">7c+</option>
+            <option>8a</option>
+            <option>8a+</option>
+            <option>8b</option>
+            <option>8b+</option>
+            <option>8c</option>
+            <option>8c+</option>
             <option data-divider="true"></option>
-            <option value="31">8a</option>
-            <option value="32">8a+</option>
-            <option value="33">8b</option>
-            <option value="34">8b+</option>
-            <option value="35">8c</option>
-            <option value="36">8c+</option>
-            <option data-divider="true"></option>
-            <option value="37">9a</option>
-            <option value="38">9a+</option>
-            <option value="39">9b</option>
-            <option value="40">9b+</option>
-            <option value="0">projet</option>
+            <option>9a</option>
+            <option>9a+</option>
+            <option>9b</option>
+            <option>9b+</option>
+            <option>projet</option>
         </select>
             
         <br>
@@ -87,6 +87,7 @@
         <!-- Boulder's sector -->
         Secteur (à modifier) :
         <select ng-model="b.sector" class="form-control" placeholder="sector">
+            <option ng-repeat="sector in sectors" ng-value="sector.id" selected="selected"> {{sector.name}} </option>
         </select>
         
 

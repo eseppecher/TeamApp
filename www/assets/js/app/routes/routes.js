@@ -37,11 +37,6 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         })
     
         
-        // Page d'ajout d'un nouveau bloc
-        .when('/add/:siteId/sector/:sectorId', {
-            templateUrl : 'partials/add.html',
-            controller  : 'AddCtrl'
-        })
 
         // Autres cas
         .otherwise({

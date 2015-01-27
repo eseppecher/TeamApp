@@ -173,7 +173,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                                         var time = d.getTime();
                                         db.update("lines", {"image": imageURI, "date": time}, {'id': id});
                                         
-                                        $location.path('/detail'+id);
+                                        $location.path('/line/'+id);
                                         
                                         
                                         }, function(err) {
@@ -230,7 +230,7 @@ myApp.controller('SiteDetailCtrl', function($scope, $routeParams, $location, $we
         };
 });
 
-// SECTOR both list or map display/////////////////////////////////////////////////////////////////////
+// SECTOR ////////////////////////////////////////////////////////////////////
 myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter, $webSql) {
         id = parseInt($routeParams.siteId);
         idd = parseInt($routeParams.sectorId);
@@ -255,6 +255,7 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         };
                  
         $scope.site = {};
+        $scope.list = [];
         $scope.lines = [];
         $scope.sectors = [];
         db.select("sites", { "id": { "value": id}}).then(function(results) {
@@ -271,6 +272,7 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                         /* Get child line */
                         db.select("lines",{"site":{"value":id}}).then(function(results) {
                                     for(var i=0; i < results.rows.length; i++){
+                                            $scope.list.push(results.rows.item(i));
                                             if(results.rows.item(i).sector == idd){
                                                     $scope.lines.push(results.rows.item(i));
                                             }
@@ -374,7 +376,7 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                  $scope.lines = [];
                  db.select("lines",{"site":{"value":id}}).then(function(results) {
                         for(var i=0; i < results.rows.length; i++){
-                                    if(results.rows.item(i).sector == idd){
+                                    if(results.rows.item(i).sector == $scope.current.id){
                                                 $scope.lines.push(results.rows.item(i));
                                     }
                         }
@@ -391,7 +393,7 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                  $scope.lines=[];
                  db.select("lines",{"site":{"value":id}}).then(function(results) {
                             for(var i=0; i < results.rows.length; i++){
-                                        if(results.rows.item(i).sector == idd){
+                                        if(results.rows.item(i).sector == $scope.current.id){
                                                     $scope.lines.push(results.rows.item(i));
                                         }
                             }
@@ -520,63 +522,4 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
     };
                  
                           
-});
-
-
-
-
-// Add controller ////////////////////////////////////////////////////////////////////////////////////////
-
-myApp.controller('AddCtrl', function($scope, $location, $routeParams, $webSql)
-{
-    
-    if (i == dataLines.length-1 ) {
-            id_last = dataLines[i].id;
-                 alert(id_last);
-                 }
-    alert(id_last);
-                 
-    siteId = parseInt($routeParams.siteId);
-    sectorId = parseInt($routeParams.sectorId);
-    
-    /* Getting sector for dropdown list form */
-    $scope.sectors = [];
-                 
-    db.select("sectors",{"site":{"value":siteId}}).then(function(results) {    
-                                                for(var i=0; i < results.rows.length; i++){
-                                                            $scope.sectors.push(results.rows.item(i));
-                                                }
-    });
-                                                                                                                  
-                 
-                 
-	$scope.save = function(name, sector, grade, rate, description) {
-                 alert("saving " + name + " " + grade + " " + sector + " at " + siteId );
-	    id_last = id_last + 1;
-                 alert(id_last);
-        var d = new Date();
-        var time = d.getTime();
-        
-	    db.insert('lines', {
-                        "id"         : id_last,
-                        "name"       : name,
-                        "grade"      : "6a",
-                        "rate"       : rate,
-                        "description": description,
-                        "latitude"   : "",
-                        "longitude"  : "",
-                        "accuracy"   : 1000,
-                        "sector"     : sector,
-                        "site"     : siteId,
-                        "image"    : "",
-                        "date"    : time
-                        });
-                 
-		$location.path('/detail'+id_last);
-    }
-    
-        $scope.goBack = function() {
-                 $location.path('/site/' + siteId + '/sector/' + sectorId);
-        };
-	
 });

@@ -3,11 +3,12 @@
 <!-- Webpage detail.html -->
 
 <div class="row primarybar"> <!-- NAVBAR -->
-    <a href="#/home" class="col-xs-4"> <i class="fa fa-home"></i> </a>
-    <a href="" class="col-xs-2" data-toggle="modal" data-target="#editModal"> <i class="fa fa-pencil"></i> </a>
-    <a href="" class="col-xs-2" ng-click="getPhoto()"> <i class="fa fa-camera"></i> </a>
-    <a href="" class="col-xs-2" ng-click="pingGps()"> <i class="fa fa-map-marker"></i> </a>
-    <a href="" class="col-xs-2" data-toggle="modal" data-target="#deleteModal"> <i class="fa fa-trash-o"></i> </a>
+    <a href="#/home" class="col-xs-2"> <i class="fa fa-home"></i> </a>
+    <a class="col-xs-2"> </a>
+    <a href="" class="col-xs-2 action" data-toggle="modal" data-target="#editModal"> <i class="fa fa-pencil"></i> </a>
+    <a href="" class="col-xs-2 action" ng-click="getPhoto()"> <i class="fa fa-camera"></i> </a>
+    <a href="" class="col-xs-2 action" ng-click="pingGps()"> <i class="fa fa-map-marker"></i> </a>
+    <a href="" class="col-xs-2 action" data-toggle="modal" data-target="#deleteModal"> <i class="fa fa-trash-o"></i> </a>
 </div>
 
 <div class="secondarybart">
@@ -82,7 +83,7 @@
         <div class="modal-content">
             
             <div class="modal-body lead"> <center>
-                Voulez supprimer définitivement le bloc {{line.name}} ? Il sera perdu à tou jamais...
+                Voulez vous supprimer définitivement le bloc <b class="action"> {{line.name}} </b> ?
                 
                 <br> <br> <br>
                 
@@ -97,12 +98,15 @@
 
 <!-- Modal edit -->
 
-<div class="modal bs-example-modal-lg fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <div class="modal-body lead">
-                <h3 align="center"> Modification d'un bloc </h3>
+<div class="modal modal-full fade" id="editModal" data-backdrop="static">
+    <div class="secondarybartt">
+        <a  href class="back" ng-click="cancelEdit()"> <i class="fa fa-chevron-left"></i> </a>
+        <h3> Modification de {{name}} </h3>
+    </div>
+    
+    <br><br>
+    
+    <div class="container lead">
                 
                 
                 <form role="form" name="edit_form" action="javascript:void(0);">
@@ -120,6 +124,12 @@
                             <option>4a+</option>
                             <option>4b</option>
                             <option>4b+</option>
+                            <option>4c</option>
+                            <option>4c+</option>
+                            <option>5a</option>
+                            <option>5a+</option>
+                            <option>5b</option>
+                            <option>5b+</option>
                             <option>5c</option>
                             <option>5c+</option>
                             <option>6a</option>

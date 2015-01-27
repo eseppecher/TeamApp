@@ -173,7 +173,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                                         var time = d.getTime();
                                         db.update("lines", {"image": imageURI, "date": time}, {'id': id});
                                         
-                                        $location.path('/detail'+id);
+                                        $location.path('/line/'+id);
                                         
                                         
                                         }, function(err) {
@@ -235,6 +235,12 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         id = parseInt($routeParams.siteId);
         idd = parseInt($routeParams.sectorId);
                  
+                 $scope.name         = ""; // initializing modal for addition
+                 $scope.grade        = "6a"; // initializing modal for addition
+                 $scope.rate         = -1; // initializing modal for addition
+                 $scope.description  = ""; // initializing modal for addition
+                 $scope.sector       = idd; // initializing modal for addition
+                 
         var sita;
                  
         $scope.currency = idd;
@@ -249,7 +255,6 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         };
                  
         $scope.site = {};
-        $scope.list = [];
         $scope.lines = [];
         $scope.sectors = [];
         db.select("sites", { "id": { "value": id}}).then(function(results) {
@@ -266,7 +271,6 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                         /* Get child line */
                         db.select("lines",{"site":{"value":id}}).then(function(results) {
                                     for(var i=0; i < results.rows.length; i++){
-                                            $scope.list.push(results.rows.item(i));
                                             if(results.rows.item(i).sector == idd){
                                                     $scope.lines.push(results.rows.item(i));
                                             }
@@ -304,9 +308,97 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         $scope.addLine = function() {
                  $location.path('/add/' + id + '/sector/' + idd);
         };
+            
+                 
+        // Annuler l'édition et remmetre à jours les ng-model
+        $scope.cancelAdd = function() {
+                 $scope.name         = ""; // resseting the ng-model
+                 $scope.grade        = "6a"; // resseting the ng-model
+                 $scope.rate         = -1; // resseting the ng-model
+                 $scope.description  = ""; // resseting the ng-model
+                 $scope.sector       = idd; // resseting the ng-model
+                 
+                 $('#addModal').modal('hide');
+        };
+                 
+        $scope.saveAdd = function() {
+                 var d = new Date();
+                 var time = d.getTime();
+                 var abstract = $scope.description;
+                 alert($scope.description);
+                 
+                 db.insert('lines', {
+                           "id"         : time,
+                           "name"       : $scope.name,
+                           "grade"      : $scope.grade,
+                           "rate"       : $scope.rate,
+                           "description": $scope.description,
+                           "latitude"   : "",
+                           "longitude"  : "",
+                           "accuracy"   : 1000,
+                           "sector"     : $scope.sector,
+                           "site"     : id,
+                           "image"    : "",
+                           "date"    : time
+                           });
+                 
+
+                 
+                 $('#addModal').modal('hide');
+                 $('body').removeClass('modal-open');
+                 $('.modal-backdrop').remove();
+                 
+                 $location.path('/line/' + time);
+        }
+                 
+                 
+        $scope.startOrder = function(){
+                $('#orderModal').modal('show');
+                 $scope.listTemp = [];
+                 $scope.listTemp = $filter('orderBy')($scope.lines, 'rank');
+        }
                  
                  
                  
+        $scope.saveOrder = function() { // add update date to the lines modified
+                 $('#orderModal').modal('hide');
+                 
+                 //saving the new ranks in the db
+
+                 for(var i=0; i < $scope.listTemp.length; i++){
+                        db.update("lines", {"rank" : i+1}, {'id': $scope.listTemp[i].id });
+                 
+                 }
+                 
+                 // resseting lines array with the current ranks ; )
+                 $scope.lines = [];
+                 db.select("lines",{"site":{"value":id}}).then(function(results) {
+                        for(var i=0; i < results.rows.length; i++){
+                                    if(results.rows.item(i).sector == idd){
+                                                $scope.lines.push(results.rows.item(i));
+                                    }
+                        }
+                                                               
+                                                               
+                });
+
+                 
+        }
+        
+        $scope.cancelOrder = function() {
+
+                 /* Get child line */
+                 $scope.lines=[];
+                 db.select("lines",{"site":{"value":id}}).then(function(results) {
+                            for(var i=0; i < results.rows.length; i++){
+                                        if(results.rows.item(i).sector == idd){
+                                                    $scope.lines.push(results.rows.item(i));
+                                        }
+                            }
+                $('#orderModal').modal('hide');
+                                                               
+                });
+        }
 });
 
 
@@ -320,7 +412,7 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
     
     // Liste des données du bloc à éditer      
     $scope.line = {};
-    $scope.sector = {};
+    $scope.sectors = [];
     $scope.edit = {};
     
     // Récupération des données du bloc dans la liste 
@@ -334,15 +426,15 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
             $scope.sector       = results.rows.item(0).sector; // for edit ng-model
             $scope.site         = results.rows.item(0).site; // for edit ng-model
             $scope.accuracy     = results.rows.item(0).accuracy;
-        }
-    );
+            var siteId = results.rows.item(0).site;
+                                    
+                                                 db.select("sectors",{"site":{"value":siteId}}).then(function(results) {
+                                                                                                 for(var i=0; i < results.rows.length; i++){
+                                                                                                 $scope.sectors.push(results.rows.item(i));
+                                                                                                 }});
+        });
     
-    db.select("sectors", {"site":{"value":$scope.line.sector}}).then(
-        function(results) {
-            $scope.sectors       = results.rows.item(0);
 
-        }
-    );
                  
                  
     // Enregistrer les données après l'édition
@@ -356,7 +448,6 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                             "sector"     : sector,
                             "date": time
                            }, {'id': id});
-
         $('#editModal').modal('hide');
                  
     };
@@ -388,7 +479,7 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                  $('#backModal').modal('show');
         }
         else{
-                 $location.path('/site/' + $scope.line.site + '/sector/' + $scope.line.sector);
+                 $location.path('/site/' + $scope.site + '/sector/' + $scope.sector);
         }
     };
     
