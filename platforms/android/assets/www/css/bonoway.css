@@ -54,6 +54,8 @@ a:hover {
 .badge-bigwall{
     background: #40AFE3; /*! BOULDER COLOR : YELLOW v1.0 */
 }
+
+li {list-style-type: none;}
 /* _________________________________________________________ */
 
 /* ANGULAR VIEW ENCAPSULATION : views are contained in a container*/
@@ -263,6 +265,14 @@ a:hover {
     margin: 0px;
     
 }
+
+/*  For styling the list in reordering modal    */
+.sorting{
+    border-width:1px;
+    border-style:solid;
+    border-color:#fff;
+}
+
 .valid {
     background-color: #dff0d8;
 }
@@ -276,6 +286,11 @@ a:hover {
     text-overflow: ellipsis; /* pour le reste du monde */
 }
 
+
+/* mais a quoi ça sert ??? */
+ul .col-xs-1, ul .col-sm-1, ul .col-md-1, ul .col-lg-1, ul .col-xs-2, ul .col-sm-2, ul .col-md-2, ul .col-lg-2, ul .col-xs-3, ul .col-sm-3, ul .col-md-3, ul .col-lg-3, ul .col-xs-4, ul .col-sm-4, ul .col-md-4, ul .col-lg-4, ul .col-xs-5, ul .col-sm-5, ul .col-md-5, ul .col-lg-5, ul .col-xs-6, ul .col-sm-6, ul .col-md-6, ul .col-lg-6, ul .col-xs-7, ul .col-sm-7, ul .col-md-7, ul .col-lg-7, ul .col-xs-8, ul .col-sm-8, ul .col-md-8, ul .col-lg-8, ul .col-xs-9, ul .col-sm-9, ul .col-md-9, ul .col-lg-9, ul .col-xs-10, ul .col-sm-10, ul .col-md-10, ul .col-lg-10, ul .col-xs-11, ul .col-sm-11, ul .col-md-11, ul .col-lg-11, ul .col-xs-12, ul .col-sm-12, ul .col-md-12, ul .col-lg-12 {
+    pointer-events: none;
+}
 
 /* mais a quoi ça sert ??? */
 .col-xs-4, .col-xs-6, .col-xs-8, .col-xs-12{

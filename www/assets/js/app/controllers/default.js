@@ -255,7 +255,6 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         };
                  
         $scope.site = {};
-        $scope.list = [];
         $scope.lines = [];
         $scope.sectors = [];
         db.select("sites", { "id": { "value": id}}).then(function(results) {
@@ -272,7 +271,6 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                         /* Get child line */
                         db.select("lines",{"site":{"value":id}}).then(function(results) {
                                     for(var i=0; i < results.rows.length; i++){
-                                            $scope.list.push(results.rows.item(i));
                                             if(results.rows.item(i).sector == idd){
                                                     $scope.lines.push(results.rows.item(i));
                                             }
@@ -326,6 +324,7 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
         $scope.saveAdd = function() {
                  var d = new Date();
                  var time = d.getTime();
+                 var abstract = $scope.description;
                  alert($scope.description);
                  
                  db.insert('lines', {
@@ -342,6 +341,9 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                            "image"    : "",
                            "date"    : time
                            });
+                 
+
+                 
                  $('#addModal').modal('hide');
                  $('body').removeClass('modal-open');
                  $('.modal-backdrop').remove();
@@ -349,12 +351,54 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                  $location.path('/line/' + time);
         }
                  
-        // saveOrder() cancelOrder()
-
-
-
+                 
+        $scope.startOrder = function(){
+                $('#orderModal').modal('show');
+                 $scope.listTemp = [];
+                 $scope.listTemp = $filter('orderBy')($scope.lines, 'rank');
+        }
                  
                  
+                 
+        $scope.saveOrder = function() { // add update date to the lines modified
+                 $('#orderModal').modal('hide');
+                 
+                 //saving the new ranks in the db
+
+                 for(var i=0; i < $scope.listTemp.length; i++){
+                        db.update("lines", {"rank" : i+1}, {'id': $scope.listTemp[i].id });
+                 
+                 }
+                 
+                 // resseting lines array with the current ranks ; )
+                 $scope.lines = [];
+                 db.select("lines",{"site":{"value":id}}).then(function(results) {
+                        for(var i=0; i < results.rows.length; i++){
+                                    if(results.rows.item(i).sector == idd){
+                                                $scope.lines.push(results.rows.item(i));
+                                    }
+                        }
+                                                               
+                                                               
+                });
+
+                 
+        }
+        
+        $scope.cancelOrder = function() {
+
+                 /* Get child line */
+                 $scope.lines=[];
+                 db.select("lines",{"site":{"value":id}}).then(function(results) {
+                            for(var i=0; i < results.rows.length; i++){
+                                        if(results.rows.item(i).sector == idd){
+                                                    $scope.lines.push(results.rows.item(i));
+                                        }
+                            }
+                $('#orderModal').modal('hide');
+                                                               
+                });
+        }
 });
 
 
