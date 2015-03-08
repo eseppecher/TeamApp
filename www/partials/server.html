@@ -1,0 +1,26 @@
+<!-- Webpage home.html -->
+
+<div class="row primarybar"> <!-- NAVBAR -->
+    <a href="#/home" class="col-xs-3"> <i class="fa fa-home"></i> </a>
+    <a href="#/server" class="col-xs-2 action" ng-click=""> <i class="fa fa-cloud"></i> </a>
+    <a href="#/send" class="col-xs-2 action" ng-click=""> <i class="fa fa-send"></i> </a>
+</div>
+
+
+
+<div class="row" ng-repeat="site in result">
+    <div class="col-xs-12">
+        <h3> {{site.get("name")}} <span class="badge" > {{site.id}} </span>
+            <button type="button" class="btn btn-radiant" ng-click="downloadSite(site.id)"> <i class="fa fa-cloud-download"></i></button>
+        </h3>
+    </div>
+    <div class="col-xs-12">
+        <h3><small> {{site.get("description")}} </small></h3>
+    </div>
+</div>
+
+
+<h1 style="font-size: 500%; text-align: center;" ng-hide="loaded"> <i class="fa fa-spinner fa-pulse"></i> </h1>
+
+<br><br>
+{{resultat}}

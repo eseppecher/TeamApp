@@ -17,6 +17,20 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 			templateUrl : 'partials/home.html',
             controller	: 'HomeCtrl'
 		})
+              
+        // Chargement des sites à partir du server
+        .when('/server', {
+            templateUrl : 'partials/server.html',
+            controller	: 'ServerCtrl'
+        })
+              
+        // Envoie de site sur le server
+        .when('/send', {
+            templateUrl : 'partials/send.html',
+            controller	: 'SendCtrl'
+        })
+              
+
          
         // Page d'un site
         .when('/site/:siteId', {
@@ -37,6 +51,27 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         })
     
         
+              
+         
+              
+        //USER management 
+              
+              .when('/user', {
+                    templateUrl : 'partials/user.html',
+                    controller	: 'UserCtrl'
+                    })
+              
+              .when('/login', {
+                    templateUrl : 'partials/login.html',
+                    controller	: 'loginCtrl'
+                    })
+              
+              
+              
+              
+              
+              
+            
 
         // Autres cas
         .otherwise({

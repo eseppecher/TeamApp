@@ -33,7 +33,8 @@ var myApp = angular.module('myApp', [
           'LocalStorageModule',
           'ngSanitize',
           'angular-websql',
-          'ui.sortable'
+          'ui.sortable',
+          'parse-angular'
           ]);
 
 

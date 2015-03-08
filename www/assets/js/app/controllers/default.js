@@ -7,6 +7,12 @@ var gpsoff=true;
 
 myApp.controller('mainController', function($scope, localStorageService, $location, $webSql, Camera)
 {
+    
+    var currentUser = Parse.User.current();
+            if (currentUser) {
+                 } else {
+                 $location.path('/login');
+                 }
 
     // Titre de la page par défaut
     $scope.title = 'Homepage';
@@ -35,7 +41,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
         db.dropTable("lines");
         
         db.createTable('sites', { // Creating a "sites" table in DB
-                       "id"         : { "type":"INTEGER"    },
+                       "id"         : { "type":"TEXT"    },
                        "name"       : { "type": "TEXT"      },
                        "description": { "type": "TEXT"      },
                        "tags"       : { "type": "TEXT"      },
@@ -46,7 +52,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
         });
                  
         db.createTable('sectors', { // Creating a "sectors" table in DB
-                       "id"         : { "type":"INTEGER"},
+                       "id"         : { "type":"TEXT"},
                        "name"       : { "type": "TEXT"},
                        "latitude"   : { "type": "TEXT" },
                        "longitude"  : { "type": "TEXT" },
@@ -56,7 +62,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
         });
 
         db.createTable('lines', { // Creating a "lines" table in DB
-                        "id"         : { "type": "INTEGER"   },
+                        "id"         : { "type": "TEXT"   },
                         "topo"       : { "type": "TEXT"      },
                         "name"       : { "type": "TEXT"      },
                         "grade"      : { "type": "TEXT"      },
@@ -72,6 +78,8 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "date"     : { "type": "INTEGER"   }
                        
         });
+                 
+                 /*
                  
         // Filling tables with data from input.html
         for(var i=0; i< dataSites.length; i++){
@@ -120,7 +128,8 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
                         "date"       : dataLines[i].date
                         }).then(function(results) { console.log(results.insertId); });
         }        
-        alert('data imported from "input.html"');                     
+        alert('data imported from "input.html"');      
+                  */
     };
     
                  
@@ -187,7 +196,7 @@ myApp.controller('mainController', function($scope, localStorageService, $locati
 
 
 
-// List controller ////////////////////////////////////////////////////////////////////////////////////////
+// LIST CONTROLER ////////////////////////////////////////////////////////////////////////////////////////
 
 myApp.controller('HomeCtrl', function($scope, $location, $webSql)
 {
@@ -204,11 +213,175 @@ myApp.controller('HomeCtrl', function($scope, $location, $webSql)
                  
 });
 
+
+// SERVER CONTROLER ////////////////////////////////////////////////////////////////////////////////////////
+
+myApp.controller('ServerCtrl', function($scope, $location, $webSql, $http)
+                 {
+       
+                 
+                 var query = new Parse.Query("sites");
+                 query.find({
+                            success: function(results) {
+                            $scope.result = results;
+                            $scope.loaded = true;
+    
+                            },
+                            error: function(error) {
+                            alert("Error: " + error.code + " " + error.message);
+                            }
+                });
+            
+   
+
+                 
+//downloading a entire site into the local db
+$scope.downloadSite = function(id){   //, 'Content-Type': 'application/json'
+                 
+                 
+                 var query = new Parse.Query("sites");
+                 query.equalTo("objectId",id);
+                 query.find({
+                            success: function(result) {
+    
+                            db.insert('sites', {
+                                      "id"         : result[0].id,
+                                      "name"       : result[0].get("name"),
+                                      "description": result[0].get("description"),
+                                      "tags"       : result[0].get("tags"),
+                                      "couverture" : result[0].get("couverture"),
+                                      "latitude"   : result[0].get("latitude"),
+                                      "longitude"  : result[0].get("longitude"),
+                                      "volume"     : result[0].get("volume")
+                                      }).then(function(results) {
+                                              alert("site rentré");
+                                              console.log(results.insertId);
+                                              });
+                            }
+                    });
+                 
+
+                 var Sector = Parse.Object.extend("sectors");
+                 var Site = Parse.Object.extend("sites");
+                 var innerQuery = new Parse.Query(Site);
+                 innerQuery.equalTo("objectId",id);
+                 var query = new Parse.Query(Sector);
+                 query.matchesQuery("site", innerQuery);
+                 query.find({
+                            success: function(result) {
+       
+                            for(var i=0; i< result.length; i++){
+
+                            
+                            db.insert('sectors', {
+                                      "id"         : result[i].id,
+                                      "name"       : result[i].get("name"),
+                                      "latitude"   : result[i].get("latitude"),
+                                      "longitude"  : result[i].get("longitude"),
+                                      "approach"   : result[i].get("approach"),
+                                      "volume"     : result[i].get("volume"),
+                                      "site"       : result[i].get("site").id
+                                      }).then(function(results) { console.log(results.insertId); });
+                            
+                            }
+                            alert("secteurs rentrés");
+                            }
+                    });
+                 
+
+                 
+                 var Line = Parse.Object.extend("lines");
+                 var Site = Parse.Object.extend("sites");
+                 var innerQuery = new Parse.Query(Site);
+                 innerQuery.equalTo("objectId",id);
+                 var query = new Parse.Query(Line);
+                 query.matchesQuery("site", innerQuery);
+                 query.find({
+                            success: function(result) {
+                            $scope.resultat = result;
+                            for(var i=0; i< result.length; i++){
+      
+
+                            db.insert('lines', {
+                                      "id"         : result[i].id,
+                                      "name"       : result[i].get("name"),
+                                      "grade"      : result[i].get("grade"),
+                                      "rate"       : result[i].get("rate"),
+                                      "description": result[i].get("description"),
+                                      "latitude"   : result[i].get("latitude"),
+                                      "longitude"  : result[i].get("longitude"),
+                                      "accuracy"   : result[i].get("accuracy"),
+                                      "site"       : result[i].get("site").id,
+                                      "sector"     : result[i].get("sector").id,
+                                      "image"      : result[i].get("image"),
+                                      "rank"       : result[i].get("rank"),
+                                      "date"       : result[i].createdAt
+                                      }).then(function(results) { console.log(results.insertId); });
+                            
+                            
+                            }
+                            alert("voies rentrées");
+                            }
+                });
+ 
+        };
+})
+
+// POST SITE ON THE SERVER////////////////////////////////////////////////////////////////////////////////////////
+myApp.controller('SendCtrl', function($scope, $location, $webSql, $http){
+
+    db.selectAll("sites").then(function(results) {
+            $scope.sites = [];
+            for(i=0; i < results.rows.length; i++){
+                    $scope.sites.push(results.rows.item(i));
+            }
+    });
+                 
+    $scope.sendSite = function(id){
+            $scope.sendData = [];
+            $scope.sectors = [];
+            $scope.lines = [];
+                 
+            db.select("sites", {"id":{"value":id}}).then(function(results) {
+                                                         
+                                $scope.sendData.push(results.rows.item(0));
+                                    
+                                db.select("sectors",{"site":{"value":id}}).then(function(results) {
+                                          
+                                                        for(var i=0; i < results.rows.length; i++){
+                                                                    $scope.sectors.push(results.rows.item(i));
+                                                        }
+                                                                                    
+                                                        $scope.sendData.push($scope.sectors);
+                                                                                
+                                                        db.select("lines",{"site":{"value":id}}).then(function(results) {
+                                                                                for(var i=0; i < results.rows.length; i++){
+                                                                                                $scope.lines.push(results.rows.item(i));
+                                                                                }
+                                                                                                                                    
+                                                                                $scope.sendData.push($scope.lines);
+                                                        });
+                                });
+                                                         
+    });
+     
+            alert("send site under dev, id = " + id );
+            // 1 Get in the db the data site, sectors and lines CHECK
+            // 2 build JSON CHECK
+            // 3 post it on the server
+            // 4 server magic
+            // 5 redownload the site to benefit from server magic (ex : new element id)
+                 
+    }
+                 
+})
+
 // DETAIL SITE ////////////////////////////////////////////////////////////////////////////////////////
 myApp.controller('SiteDetailCtrl', function($scope, $routeParams, $location, $webSql) {
                  
 
-        id = parseInt($routeParams.siteId);
+        id = $routeParams.siteId;
+
         var sita;
         $scope.site = {};
         db.select("sites", { "id": { "value": id}}).then(function(results) {
@@ -232,14 +405,14 @@ myApp.controller('SiteDetailCtrl', function($scope, $routeParams, $location, $we
 
 // SECTOR ////////////////////////////////////////////////////////////////////
 myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter, $webSql) {
-        id = parseInt($routeParams.siteId);
-        idd = parseInt($routeParams.sectorId);
+        id = $routeParams.siteId;
+        idd = $routeParams.sectorId;
                  
-                 $scope.name         = ""; // initializing modal for addition
-                 $scope.grade        = "6a"; // initializing modal for addition
-                 $scope.rate         = -1; // initializing modal for addition
-                 $scope.description  = ""; // initializing modal for addition
-                 $scope.sector       = idd; // initializing modal for addition
+        $scope.name         = ""; // initializing modal for addition
+        $scope.grade        = "6a"; // initializing modal for addition
+        $scope.rate         = -1; // initializing modal for addition
+        $scope.description  = ""; // initializing modal for addition
+        $scope.sector       = idd; // initializing modal for addition
                  
         var sita;
                  
@@ -381,7 +554,6 @@ myApp.controller('SectorCtrl', function($scope, $routeParams, $location, $filter
                                     }
                         }
                                                                
-                                                               
                 });
 
                  
@@ -410,7 +582,7 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
 {
      $scope.localizing = false;
     // Identifiant du bloc à éditer
-    id = parseInt($routeParams.lineId);
+    id = $routeParams.lineId;
     
     // Liste des données du bloc à éditer      
     $scope.line = {};
@@ -523,3 +695,65 @@ myApp.controller('DataCtrl', function($scope, $routeParams, $location, $webSql, 
                  
                           
 });
+
+
+
+
+
+
+
+
+// USER MANAGEMENT SECTION ****************************************************************************
+
+
+
+
+
+
+
+// LOGIN CONTROLLER  ////////////////////////////////////////////////////////////////////////////////////////
+myApp.controller('loginCtrl', function($scope, $http, $location) {
+ 
+        
+                 
+         $scope.connect = function() {
+                 Parse.User.logIn($scope.username, $scope.password, {
+                                 success: function(user) {
+                                  //alert(currentUser.get("username"));
+                                  $location.path('/home');
+                                 },
+                                 error: function(user, error) {
+                                  alert("error");
+                                 }
+                                 });
+
+
+                 }
+        
+                 
+});
+
+
+
+
+// User controler ////////////////////////////////////////////////////////////////////////////////////////
+myApp.controller('UserCtrl', function($scope, $http, $location) {
+                 alert(angular.identity(Parse.User.current()));
+                 $scope.currentUser = angular.extend(Parse.User.current());
+                 $scope.username = $scope.currentUser.get("username");
+                 alert($scope.currentUser.username);
+                 
+                 angular.isObject(value);
+                 
+                 
+                 
+    $scope.logOut = function() {
+                 Parse.User.logOut();
+                 $location.path('/login');
+    }
+                 
+                 
+                 
+                 
+});
+

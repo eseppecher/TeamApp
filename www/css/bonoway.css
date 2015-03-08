@@ -86,14 +86,14 @@ li {list-style-type: none;} /* to avoid indent of li : used in list ordering*/
     padding-top: 10px;
     font-size:x-large;
     text-align: center;
-    color: #929292; /* (blue) background: #40afe3; */
+    color: #007aff; /* (blue) background: #40afe3; */
 }
 
 /* "here" is the style of the current location in the nav */
 
 .primarybar a:active, .here, .here i {
-    background: #bfbfbf; /* (blue) background: #2985b0; */
-    color: #007aff; /* (blue) color: #ffffff; */
+    background: #007aff; /* (blue) background: #2985b0; */
+    color: #f8f8f8; /* (blue) color: #ffffff; */
 }
 
 .primarybar .action{
